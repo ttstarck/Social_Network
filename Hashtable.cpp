@@ -8,6 +8,7 @@
 #include <iostream>
 
 Hashtable::Hashtable(){
+	table = NULL;
 	// STUB!!!
 }
 
@@ -15,7 +16,7 @@ Hashtable::~Hashtable(){
 	// STUB!!!
 }
 
-int Hashtalbe::insert(){
+int Hashtable::insert(){
 	// STUB!!!
 	return -42;
 }
