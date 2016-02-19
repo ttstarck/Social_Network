@@ -1,3 +1,8 @@
+#
+# makefile
+# Social_Network
+#
+
 CXX=g++
 # CXX=clang++
 
@@ -12,6 +17,5 @@ main: main.o
 	${CXX} $^ -o $@
 run_main: main
 	-./main
-
 clean:
 	/bin/rm -f ${BINARIES} *.o

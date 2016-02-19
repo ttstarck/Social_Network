@@ -17,6 +17,10 @@ int main(){
 		string name = "";
 		string occupation = ""; 
 		string age = "";
+		/*
+			This only allows for one possible friend. Option for multiple friends is to create 
+			the linked list of friends here, or create a node class to create the linked list with.
+		*/
 		string friend1 = "";
 		while(getline(file,line)){
 			int position = 0;
