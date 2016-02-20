@@ -12,7 +12,7 @@ void hashTableTest(){
 	string fail = "Test failed.";
 	string pass = "Test passed.";
 	
-	Hashtable* h = new Hashtable;
+	Hashtable* h = new Hashtable();
 
 	int numTestsPassed = 0;
 	int numTestsFailed = 0;
