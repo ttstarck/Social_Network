@@ -2,8 +2,12 @@
 // Hashtable.h
 // Social_Network
 //
+
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
+
+#include "HashNode.h"
+#include <string>
 
 class Hashtable{
 public:
@@ -12,23 +16,17 @@ public:
 
 	~Hashtable();
 
-	int insert();
+	int insert(std::string name, int profileDataPointer, FriendNode* friendHead);
 
-	int lookUp();
+	// Returns 
+	HashNode* lookUp(std::string name);
 
 private:
 
-	struct FriendNode{
+	
+	HashNode** table;
 
-	};
-
-	struct Node{
-
-	};
-
-	Node** table;
-
-	int hashFunction();
+	int hashFunction(std::string name, int seed);
 
 };
 

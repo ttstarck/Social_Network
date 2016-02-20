@@ -2,6 +2,9 @@
 // main.cpp
 // Social_Network
 //
+
+
+
 #include <iostream>
 #include <exception>
 #include <string>
@@ -12,6 +15,7 @@ using namespace std;
 
 int main(){
 	try{
+		int numInserted = 0;
 		ifstream file("input.txt");
 		string line;
 		string name = "";
@@ -42,6 +46,7 @@ int main(){
 				}
 
 			}
+			// Insert into Hashtable, BTree, and ProfileData
 		}
 		cout << name << endl << occupation << endl << age << endl << friend1 << endl;
 	}
