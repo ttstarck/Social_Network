@@ -11,7 +11,7 @@
 class FriendNode{
 	public:
 		FriendNode* nextFriend;
-		std::string name="stub";
+		std::string name;
 };
 
 #endif //FRIENDNODE_H

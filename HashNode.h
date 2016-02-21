@@ -14,7 +14,6 @@ class HashNode{
 	public:
 		int profileDataPointer;
 		FriendNode* friendHead;
-		std::string name;
 };
 
 #endif

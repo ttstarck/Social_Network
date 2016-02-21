@@ -6,7 +6,7 @@
 #ifndef FSEEKER_H
 #define FSEEKER_H
 
-#include "HashNode.h"
+#include "FriendNode.h"
 #include <string>
 
 class FSeeker{
@@ -14,7 +14,7 @@ class FSeeker{
 
 		FSeeker(std::string fileName);
 
-		std::string insert(HashNode* addData);
+		std::string insert(std::string name, int age, std::string occupation);
 
 		std::string getProfileData(int profileDataPointer);
 

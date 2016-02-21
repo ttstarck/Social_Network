@@ -57,13 +57,13 @@ void FSeekerTest(){
 
   cout << "Running tests on Hashtable:" << endl;
   cout << "insert function: ";
-  if(f->insert(NULL)=="stub"){
+  if(f->insert("Kanye", 38, "KimKJayZ")=="inserted"){
     numTestsPassed++;
     cout << pass << endl;
   }
   else{
     numTestsFailed++;
-    cout << "   Expected result: " << -42 << " Actual result: " << f->insert(NULL) << endl;
+    cout << "   Expected result: " << "inserted" << " Actual result: " << f->insert("Kanye", 38, "KimKJayZ") << endl;
     cout << fail << endl;
   }
   cout << "getProfileData function: ";

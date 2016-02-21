@@ -49,6 +49,7 @@ int main(){
 			// Insert into Hashtable, BTree, and ProfileData
 		}
 		cout << name << endl << occupation << endl << age << endl << friend1 << endl;
+		//INSERT: make friendl linkedlist
 	}
 	catch(exception& ex){
 		cerr << ex.what() << endl;
