@@ -6,6 +6,8 @@
 #ifndef FRIENDNODE_H
 #define FRIENDNODE_H
 
+#include <string>
+
 class FriendNode{
 	public:
 		FriendNode* nextFriend;

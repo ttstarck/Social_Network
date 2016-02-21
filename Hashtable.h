@@ -18,7 +18,6 @@ public:
 
 	int insert(std::string name, int profileDataPointer, FriendNode* friendHead);
 
-	// Returns 
 	HashNode* lookUp(std::string name);
 
 private:

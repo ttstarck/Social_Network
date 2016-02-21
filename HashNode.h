@@ -8,6 +8,8 @@
 
 #include "FriendNode.h"
 
+#include <string>
+
 class HashNode{
 	public:
 		int profileDataPointer;
