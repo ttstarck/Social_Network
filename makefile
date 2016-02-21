@@ -6,10 +6,10 @@
 CXX=g++
 # CXX=clang++
 
-CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
+CXXFLAGS = -std=c++11 -Wall -Wextra -Werror -Wno-unused-parameter  #added the last so I wouldn't get the unused parameter error
 
 BINARIES=tests, main
-tests: SN_Tests.o Hashtable.o
+tests: SN_Tests.o Hashtable.o FSeeker.o
 	${CXX} $^ -o $@
 run_tests: tests
 	-./tests

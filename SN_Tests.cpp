@@ -20,22 +20,22 @@ void hashTableTest(){
 
 	cout << "Running tests on Hashtable:" << endl;
 	cout << "insert function: ";
-	if(h->insert() == -42){
+	if(h->insert("stub", -42, NULL) == -42){
 		numTestsPassed++;
 		cout << pass << endl;
 	}
 	else{
 		numTestsFailed++;
-		cout << "	Expected result: " << -42 << " Actual result: " << h->insert() << endl;
+		cout << "	Expected result: " << -42 << " Actual result: " << h->insert("stub", -42, NULL) << endl;
 		cout << fail << endl;
 	}
 	cout << "lookUp function: ";
-	if(h->lookUp() == -42){
+	if(h->lookUp("stub") == NULL){
 		numTestsPassed++;
 		cout << pass << endl;
 	}
 	else{
-		cout << "	Expected result: " << -42 << " Actual result: " << h->lookUp() << endl;
+		cout << "	Expected result: " << "NULL" << " Actual result: " << h->lookUp("stub") << endl;
 		numTestsFailed++;
 		cout << fail << endl;
 	}
