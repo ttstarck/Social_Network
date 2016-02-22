@@ -1,1 +1,2 @@
 Tristan,Student,19,Brian,David,Kelly
+Ellen,TalkShowHost,50,NikkiPorchaOprah

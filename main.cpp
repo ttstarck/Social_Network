@@ -14,44 +14,47 @@
 using namespace std;
 
 int main(){
-	try{
-		int numInserted = 0;
-		ifstream file("input.txt");
-		string line;
-		string name = "";
-		string occupation = ""; 
-		string age = "";
-		/*
-			This only allows for one possible friend. Option for multiple friends is to create 
-			the linked list of friends here, or create a node class to create the linked list with.
-		*/
-		string friend1 = "";
-		while(getline(file,line)){
-			int position = 0;
-			for(size_t i = 0; i < line.length(); i++){
-				if(line[i] == '\n')
-					break;
-				if(line[i] == ',')
-					position++;
-				else if(position == 0)
-					name += line[i];
-				else if(position == 1){
-					occupation += line[i];
-				}
-				else if(position == 2){
-					age += line[i];
-				}
-				else{
-					friend1 += line[i];
-				}
+  try{
+    int numInserted = 0;
+    ifstream file("input.txt");
+    string line;
+    /*
+      This only allows for one possible friend. Option for multiple friends is to create 
+      the linked list of friends here, or create a node class to create the linked list with.
+    */
+    while(getline(file,line)){
 
-			}
-			// Insert into Hashtable, BTree, and ProfileData
-		}
-		cout << name << endl << occupation << endl << age << endl << friend1 << endl;
-		//INSERT: make friendl linkedlist
+      string name = "";
+      string occupation = "";
+      string age = "";
+      string friend1="";
+
+
+      int position = 0;
+      for(size_t i = 0; i < line.length(); i++){
+	if(line[i] == '\n')
+	  break;
+	if(line[i] == ',')
+	  position++;
+	else if(position == 0)
+	  name += line[i];
+	else if(position == 1){
+	  occupation += line[i];
 	}
-	catch(exception& ex){
-		cerr << ex.what() << endl;
+	else if(position == 2){
+	  age += line[i];
 	}
+	else{
+	  friend1 += line[i];
+	}
+      }
+      cout << name << endl << occupation << endl << age << endl << friend1 << endl;
+      // Insert into Hashtable, BTree, and ProfileData
+    }
+
+    //INSERT: make friendl linkedlist
+  }
+  catch(exception& ex){
+    cerr << ex.what() << endl;
+  }
 }
