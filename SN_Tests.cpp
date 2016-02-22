@@ -20,13 +20,14 @@ void hashTableTest(){
 
   cout << "Running tests on Hashtable:" << endl;
   cout << "insert function: ";
-  if(h->insert("stub", -42, NULL) == -42){
+  int insertValue = h->insert("stub",-42,NULL);
+  if(insertValue == 0){
     numTestsPassed++;
     cout << pass << endl;
   }
   else{
     numTestsFailed++;
-    cout << "	Expected result: " << -42 << " Actual result: " << h->insert("stub", -42, NULL) << endl;
+    cout << "	Expected result: " << 0 << " Actual result: " << insertValue << endl;
     cout << fail << endl;
   }
   cout << "lookUp function: ";
@@ -39,9 +40,14 @@ void hashTableTest(){
     numTestsFailed++;
     cout << fail << endl;
   }
-  cout << "Results for HashTable tests:" << endl;
+
+  cout << "Printing HashTable h:" << endl;
+  h->print();
+
+  cout << "\nResults for HashTable tests:" << endl;
   cout << "Tests passed:" << numTestsPassed << endl;
   cout << "Tests failed:" << numTestsFailed << endl;
+
 }
 
 
@@ -63,8 +69,7 @@ void FSeekerTest(){
   }
   else{
     numTestsFailed++;
-    cout << "   Expected result: " << "inserted" << " Actual result: " << f->insert("Kanye", 38, "musician") << endl;
-    cout << fail << endl;
+    cout << fail << "   Expected result: " << "inserted" << " Actual result: " << f->insert("Kanye", 38, "musician") << endl;
   }
   cout << "getProfileData function: ";
   if(f->getProfileData(0)=="Kanye38musician"){
@@ -72,9 +77,8 @@ void FSeekerTest(){
     cout << pass << endl;
   }
   else{
-    cout << "   Expected result: " << "Kanye38musician" << " Actual result: " << (f->getProfileData(0)) << endl;
+    cout <<  fail << "   Expected result: " << "Kanye38musician" << " Actual result: " << (f->getProfileData(0)) << endl;
     numTestsFailed++;
-    cout << fail << endl;
   }
   cout << "getName function: "; 
  if(f->getName(0)=="Kanye"){
@@ -82,9 +86,8 @@ void FSeekerTest(){
     cout << pass << endl;
   }
   else{
-    cout << "   Expected result: " << "Kanye" << " Actual result: " << (f->getName(0)) << endl;
+    cout << fail << "   Expected result: " << "Kanye" << " Actual result: " << (f->getName(0)) << endl;
     numTestsFailed++;
-    cout << fail << endl;
   }
  cout << "getOccupation function: ";
    if(f->getOccupation(0)=="musician"){
@@ -92,9 +95,8 @@ void FSeekerTest(){
     cout << pass << endl;
   }
   else{
-    cout << "   Expected result: " << "musician" << " Actual result: " << (f->getOccupation(0)) << endl;
+    cout << fail << "   Expected result: " << "musician" << " Actual result: " << (f->getOccupation(0)) << endl;
     numTestsFailed++;
-    cout << fail << endl;
   }
    cout << "getAge function: ";
    if(f->getAge(0)=="38"){
@@ -102,13 +104,12 @@ void FSeekerTest(){
     cout << pass << endl;
   }
   else{
-    cout << "   Expected result: " << "38" << " Actual result: " << (f->getAge(0)) << endl;
+    cout << fail << "   Expected result: " << "38" << " Actual result: " << (f->getAge(0)) << endl;
     numTestsFailed++;
-    cout << fail << endl;
   }
-  cout << "Results for FSeeker tests:" << endl;
+  cout << "\nResults for FSeeker tests:" << endl;
   cout << "Tests passed:" << numTestsPassed << endl;
-  cout << "Tests failed:" << numTestsFailed << endl;
+  cout << "Tests failed:" << numTestsFailed << endl << endl;
 
 
 }

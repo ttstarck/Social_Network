@@ -12,6 +12,7 @@
 
 class HashNode{
 	public:
+		std::string name;
 		int profileDataPointer;
 		FriendNode* friendHead;
 };

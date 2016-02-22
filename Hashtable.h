@@ -20,10 +20,13 @@ public:
 
 	HashNode* lookUp(std::string name);
 
+	void print();
+
 	std::string getFriends(int profileDataPointer);
 
 private:
 
+	int tableSize;
 	
 	HashNode** table;
 
