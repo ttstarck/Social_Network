@@ -12,14 +12,14 @@
 #include <stdlib.h>
 #include <sstream>
 
-FSeeker::FSeeker(std::string fileName){
+FSeeker::FSeeker(char* fileName){
   this->fileName=fileName;
 }
 
 //I am starting by inserting to the end of the file
 std::string FSeeker::insert(std::string name, int age, std::string occupation){
   FILE * pFile;
-  pFile = fopen ( "ProfileData.txt" , "w" );
+  pFile = fopen ( fileName , "w" );
   const char * addName = name.c_str();
   std::stringstream ss;
   ss << age;

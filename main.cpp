@@ -2,7 +2,7 @@
 // main.cpp
 // Social_Network
 //
-
+#include "FSeeker.h"
 #include "FriendNode.h"
 #include "Hashtable.h"
 #include "HashNode.h"
@@ -18,6 +18,10 @@ using namespace std;
 int main(){
   try{
     int numInserted = 0;
+
+    char* fileName = strdup("ProfileData.txt");
+    FSeeker* f = new FSeeker(fileName);
+
     ifstream file("input.txt");
     string line;
     /*
@@ -76,7 +80,7 @@ int main(){
         node = node->nextFriend;
       }
       cout << node->name << endl;
-      
+      f->insert(name,std::stoi(age),occupation);
       // Insert into Hashtable, BTree, and ProfileData
     }
 

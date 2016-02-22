@@ -12,7 +12,7 @@
 class FSeeker{
 	public:
 
-		FSeeker(std::string fileName);
+		FSeeker(char* fileName);
 
 		std::string insert(std::string name, int age, std::string occupation);
 
@@ -25,7 +25,7 @@ class FSeeker{
 		std::string getAge(int profileDataPointer);
 
 	private:
-		std::string fileName;
+		char* fileName;
 
 
 };

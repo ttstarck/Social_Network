@@ -56,7 +56,8 @@ void FSeekerTest(){
   string fail = "Test failed.";
   string pass = "Test passed.";
 
-  FSeeker* f = new FSeeker("input.txt");
+  char* fileName = strdup("ProfileData.txt");
+  FSeeker* f = new FSeeker(fileName);
 
   int numTestsPassed = 0;
   int numTestsFailed = 0;

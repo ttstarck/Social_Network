@@ -13,9 +13,9 @@ tests: SN_Tests.o Hashtable.o FSeeker.o
 	${CXX} $^ -o $@
 run_tests: tests
 	-./tests
-main: main.o
+main: main.o FSeeker.o
 	${CXX} $^ -o $@
 run_main: main
 	-./main
 clean:
-	/bin/rm -f ${BINARIES} *.o
+	/bin/rm -f ${BINARIES} *.o ProfileData.txt
