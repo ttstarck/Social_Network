@@ -13,7 +13,7 @@
 #include <sstream>
 
 FSeeker::FSeeker(std::string fileName){
-  fileName=fileName;
+  this->fileName=fileName;
 }
 
 //I am starting by inserting to the end of the file
@@ -35,7 +35,6 @@ std::string FSeeker::insert(std::string name, int age, std::string occupation){
   fseek ( pFile , 3- strlen("27") , SEEK_CUR );
   fputs ( addOccupation, pFile);
   fseek ( pFile , 53 , SEEK_SET );
-  //  fputs ( "\n" , pFile );
   fclose ( pFile );
 
 

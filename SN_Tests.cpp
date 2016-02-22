@@ -55,7 +55,7 @@ void FSeekerTest(){
   int numTestsPassed = 0;
   int numTestsFailed = 0;
 
-  cout << "Running tests on Hashtable:" << endl;
+  cout << "Running tests on FSeeker:" << endl;
   cout << "insert function: ";
   if(f->insert("Kanye", 38, "musician")=="inserted"){
     numTestsPassed++;
