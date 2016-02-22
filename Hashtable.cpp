@@ -33,3 +33,9 @@ int Hashtable::hashFunction(std::string name, int seed){
   //name="stub"; seed=-42; //I am doing this so we don't get unused parameter errors when compiling
   return -42;
 }
+
+std::string Hashtable::getFriends(int profileDataPointer){
+  //STUB!!!
+  return "stub";
+
+}

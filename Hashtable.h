@@ -20,6 +20,8 @@ public:
 
 	HashNode* lookUp(std::string name);
 
+	std::string getFriends(int profileDataPointer);
+
 private:
 
 	
