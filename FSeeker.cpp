@@ -17,14 +17,12 @@ FSeeker::FSeeker(char* fileName){
 }
 
 //I am starting by inserting to the end of the file
-std::string FSeeker::insert(std::string name, int age, std::string occupation){
+std::string FSeeker::insert(std::string name, std::string age, std::string occupation){
   FILE * pFile;
   pFile = fopen ( fileName , "w" );
   const char * addName = name.c_str();
-  std::stringstream ss;
-  ss << age;
-  std::string addAgeString = ss.str();
-  char* addAge =(char*) addAgeString.c_str();
+  
+  const char * addAge = age.c_str();
   const char * addOccupation = occupation.c_str();
 
   fseek(pFile, 0, SEEK_END);

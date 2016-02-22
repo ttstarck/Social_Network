@@ -64,13 +64,14 @@ void FSeekerTest(){
 
   cout << "Running tests on FSeeker:" << endl;
   cout << "insert function: ";
-  if(f->insert("Kanye", 38, "musician")=="inserted"){
+  std::string insertStr = f->insert("Kanye", "38", "musician");
+  if(insertStr=="inserted"){
     numTestsPassed++;
     cout << pass << endl;
   }
   else{
     numTestsFailed++;
-    cout << fail << "   Expected result: " << "inserted" << " Actual result: " << f->insert("Kanye", 38, "musician") << endl;
+    cout << fail << "   Expected result: " << "inserted" << " Actual result: " << insertStr << endl;
   }
   cout << "getProfileData function: ";
   if(f->getProfileData(0)=="Kanye38musician"){

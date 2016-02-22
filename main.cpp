@@ -80,7 +80,7 @@ int main(){
         node = node->nextFriend;
       }
       cout << node->name << endl;
-      f->insert(name,std::stoi(age),occupation);
+      f->insert(name, age, occupation);
       // Insert into Hashtable, BTree, and ProfileData
     }
 
