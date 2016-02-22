@@ -35,7 +35,7 @@ std::string FSeeker::insert(std::string name, int age, std::string occupation){
   fseek ( pFile , 3- strlen("27") , SEEK_CUR );
   fputs ( addOccupation, pFile);
   fseek ( pFile , 53 , SEEK_SET );
-  fputs ( "\n" , pFile );
+  //  fputs ( "\n" , pFile );
   fclose ( pFile );
 
 
@@ -43,21 +43,44 @@ std::string FSeeker::insert(std::string name, int age, std::string occupation){
 }
 
 std::string FSeeker::getProfileData(int profileDataPointer){
-  //STUB!!!
-  return "stub";
+  std::string profileData="";
+  profileData+=getName(profileDataPointer);
+  profileData+=getAge(profileDataPointer);
+  profileData+=getOccupation(profileDataPointer);
+  //how do we want to return it?
+
+  return profileData;
 }
 
 std::string FSeeker::getName(int profileDataPointer){
-  //STUB!!!
-  return "stub";
-}
+  int nameStart = profileDataPointer*53;
+  char* nameData = new char[20];
+  FILE * pFile;
+  pFile = fopen ( "ProfileData.txt" , "r" );
+  fseek(pFile, nameStart, SEEK_SET);
+  nameData = fgets(nameData, 20, pFile);
 
-std::string FSeeker::getOccupation(int profileDataPointer){
-  //STUB!!!
-  return "stub";
+  return nameData;
 }
 
 std::string FSeeker::getAge(int profileDataPointer){
-  //STUB!!!
-  return "stub";
+  int occupationStart = profileDataPointer*53+20;
+  char* occupationData = new char[3];
+  FILE * pFile;
+  pFile = fopen ( "ProfileData.txt" , "r" );
+  fseek(pFile, occupationStart, SEEK_SET);
+  occupationData = fgets(occupationData, 3, pFile);
+
+  return occupationData;
+}
+
+std::string FSeeker::getOccupation(int profileDataPointer){
+  int ageStart = profileDataPointer*53+23;
+  char* ageData = new char[30];
+  FILE * pFile;
+  pFile = fopen ( "ProfileData.txt" , "r" );
+  fseek(pFile, ageStart, SEEK_SET);
+  ageData = fgets(ageData, 30, pFile);
+
+  return ageData;
 }
