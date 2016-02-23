@@ -55,26 +55,37 @@ void hashTableTest(){
 void FSeekerTest(){
   string fail = "Test failed.";
   string pass = "Test passed.";
-
-  char* fileName = strdup("ProfileData.txt");
+  std::string fileNameC = "ProfileData.txt";
+  const char* fileName = fileNameC.c_str();
   FSeeker* f = new FSeeker(fileName);
 
   int numTestsPassed = 0;
   int numTestsFailed = 0;
 
   cout << "Running tests on FSeeker:" << endl;
-  cout << "insert function: ";
-  std::string insertStr = f->insert("Kanye", "38", "musician");
-  if(insertStr=="inserted"){
+  cout << "insert function1: ";
+  std::string insertStr1 = f->insert("Kanye", "38", "musician");
+  if(insertStr1=="inserted"){
     numTestsPassed++;
     cout << pass << endl;
   }
   else{
     numTestsFailed++;
-    cout << fail << "   Expected result: " << "inserted" << " Actual result: " << insertStr << endl;
+    cout << fail << "   Expected result: " << "inserted" << " Actual result: " << insertStr1 << endl;
   }
+ cout << "insert function2: ";
+ std::string insertStr2 = f->insert("Jennifer", "47", "actress");
+  if(insertStr2=="inserted"){
+    numTestsPassed++;
+    cout << pass << endl;
+  }
+  else{
+    numTestsFailed++;
+    cout << fail << "   Expected result: " << "inserted" << " Actual result: " << insertStr2 << endl;
+  }
+  
   cout << "getProfileData function: ";
-  if(f->getProfileData(0)=="Kanye38musician"){
+  if(f->getProfileData(0)=="Jennifer47actress"){
     numTestsPassed++;
     cout << pass << endl;
   }

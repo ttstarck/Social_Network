@@ -12,7 +12,7 @@
 class FSeeker{
 	public:
 
-		FSeeker(char* fileName);
+  FSeeker(char* fileName);
 
 		std::string insert(std::string name, std::string age, std::string occupation);
 
