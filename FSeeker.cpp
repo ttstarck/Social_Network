@@ -28,15 +28,15 @@ std::string FSeeker::insert(std::string name, std::string age, std::string occup
   fseek(pFile, 53*numInserted, SEEK_SET);
   fputs ( addName , pFile );
   // seek 20 bytes from the beginning of the file.
-  fseek ( pFile , 20-std::strlen(addName), SEEK_CUR );
-  
+  //  fseek ( pFile , 20-std::strlen(addName), SEEK_CUR );
+  fseek(pFile, 20, SEEK_SET);
   fputs ( addAge , pFile );
-  fseek ( pFile , 3-std::strlen(addAge) , SEEK_CUR);
-  
+  //fseek ( pFile , 3-std::strlen(addAge) , SEEK_CUR);
+  fseek(pFile,3, SEEK_SET);
   fputs ( addOccupation, pFile);
   //fseek ( pFile , 30-std::strlen(addOccupation) , SEEK_CUR );
-  
-  //fclose ( pFile );
+  fseek(pFile, 30, SEEK_SET);
+  //fclose ( pFile ); //why do we not close this?
 
 
   return "inserted";
