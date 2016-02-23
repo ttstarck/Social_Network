@@ -68,7 +68,7 @@ void Hashtable::print(){
   }
 }
 
-std::string Hashtable::getFriends(int profileDataPointer){
+std::string Hashtable::getFriends(std::string name){
   //STUB!!!
   return "stub";
 

@@ -22,7 +22,7 @@ public:
 
 	void print();
 
-	std::string getFriends(int profileDataPointer);
+	std::string getFriends(std::string name);
 
 private:
 
