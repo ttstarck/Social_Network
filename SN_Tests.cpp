@@ -64,7 +64,7 @@ void FSeekerTest(){
 
   cout << "Running tests on FSeeker:" << endl;
   cout << "insert function1: ";
-  std::string insertStr1 = f->insert("Kanye", "38", "musician");
+  std::string insertStr1 = f->insert("Kanye", "38", "musician",0);
   if(insertStr1=="inserted"){
     numTestsPassed++;
     cout << pass << endl;
@@ -74,7 +74,7 @@ void FSeekerTest(){
     cout << fail << "   Expected result: " << "inserted" << " Actual result: " << insertStr1 << endl;
   }
  cout << "insert function2: ";
- std::string insertStr2 = f->insert("Jennifer", "47", "actress");
+ std::string insertStr2 = f->insert("Jennifer", "47", "actress",1);
   if(insertStr2=="inserted"){
     numTestsPassed++;
     cout << pass << endl;
@@ -85,7 +85,7 @@ void FSeekerTest(){
   }
   
   cout << "getProfileData function: ";
-  if(f->getProfileData(0)=="Jennifer47actress"){
+  if(f->getProfileData(0)=="Kanye38musician"){
     numTestsPassed++;
     cout << pass << endl;
   }

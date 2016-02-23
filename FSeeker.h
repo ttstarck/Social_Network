@@ -8,13 +8,14 @@
 
 #include "FriendNode.h"
 #include <string>
+#include <stdlib.h>
 
 class FSeeker{
 	public:
 
-  FSeeker(char* fileName);
+  FSeeker(const char* fileName);
 
-		std::string insert(std::string name, std::string age, std::string occupation);
+		std::string insert(std::string name, std::string age, std::string occupation, int numInserted);
 
 		std::string getProfileData(int profileDataPointer);
 
@@ -25,8 +26,9 @@ class FSeeker{
 		std::string getAge(int profileDataPointer);
 
 	private:
-		char* fileName;
+		const char* fileName;
 
+		FILE * pFile;
 
 };
 
