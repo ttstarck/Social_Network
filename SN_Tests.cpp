@@ -5,6 +5,7 @@
 
 #include "Hashtable.h"
 #include "FSeeker.h"
+#include "FriendNode.h"
 
 #include <iostream>
 #include <string>
@@ -19,24 +20,78 @@ void hashTableTest(){
   int numTestsFailed = 0;
 
   cout << "Running tests on Hashtable:" << endl;
-  cout << "insert function: ";
-  int insertValue = h->insert("stub",-42,NULL);
-  if(insertValue == 0){
+  cout << "insert function1: ";
+  
+  int insertValue1 = h->insert("stub",-42,NULL);
+  if(insertValue1 == 0){
     numTestsPassed++;
     cout << pass << endl;
   }
   else{
     numTestsFailed++;
-    cout << "	Expected result: " << 0 << " Actual result: " << insertValue << endl;
+    cout << "	Expected result: " << 0 << " Actual result: " << insertValue1 << endl;
     cout << fail << endl;
   }
-  cout << "lookUp function: ";
-  if((h->lookUp("stub")) == NULL){                                                           //I think we are going to want to eventually replace h->lookup("stub") with h->lookup("stub")->name
+  
+  cout << "insert function2: ";
+  FriendNode* fNode = new FriendNode;
+  fNode->name = "Bob";
+  FriendNode* fNode1 = new FriendNode;
+  fNode1->name = "Bill";
+  fNode1->nextFriend = NULL;
+  fNode->nextFriend = fNode1;
+  int insertValue2 = h->insert("Chris",2,fNode);
+  if(insertValue2 == 0){
     numTestsPassed++;
     cout << pass << endl;
   }
   else{
-    cout << "	Expected result: " << "NULL" << " Actual result: " << (h->lookUp("stub")) << endl;
+    numTestsFailed++;
+    cout << " Expected result: " << 0 << " Actual result: " << insertValue2 << endl;
+    cout << fail << endl;
+  }
+  
+  cout << "lookUp function1: ";
+  if((h->lookUp("stub")->name) == "stub"){
+    numTestsPassed++;
+    cout << pass << endl;
+  }
+  else{
+    cout << "	Expected result: " << "stub" << " Actual result: ";
+    if(h->lookUp("stub") != NULL)
+      cout << (h->lookUp("stub")->name) << endl;
+    numTestsFailed++;
+    cout << fail << endl;
+  }
+  cout << "lookUp function2: ";
+  if( h->lookUp("Chris")!= NULL && (h->lookUp("Chris")->name) == "Chris"){
+    numTestsPassed++;
+    cout << pass << endl;
+  }
+  else{
+    cout << " Expected result: " << "Chris" << " Actual result: ";
+    if(h->lookUp("Chris")!= NULL)
+      cout << (h->lookUp("Chris")->name) << endl;
+    numTestsFailed++;
+    cout << fail << endl;
+  }
+  cout << "getFriends function1: ";
+  if( h->getFriends("stub") == ""){
+    numTestsPassed++;
+    cout << pass << endl;
+  }
+  else{
+    cout << " Expected result: " << "" << " Actual result: " << (h->getFriends("stub")) << endl;
+    numTestsFailed++;
+    cout << fail << endl;
+  }
+  cout << "getFriends function2: ";
+  if( h->getFriends("Chris") == "Bob Bill"){
+    numTestsPassed++;
+    cout << pass << endl;
+  }
+  else{
+    cout << " Expected result: " << "Bob Bill" << " Actual result: " << (h->getFriends("Chris")) << endl;
     numTestsFailed++;
     cout << fail << endl;
   }

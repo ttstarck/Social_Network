@@ -49,17 +49,19 @@ HashNode* Hashtable::lookUp(std::string name){
   //name="stub"; //I am doing this so we don't get unused parameter errors when compiling
   int seed = 0;
   int hash = hashFunction(name,seed);
-  while(table[hash] != NULL && seed < tableSize){
+  while(table[hash] != NULL && table[hash]->name != name && seed < tableSize){
     seed++;
     hash = hashFunction(name,seed);
+    //std::cout << "Searching table in lookUp: " << seed <<  " " << hash << std::endl;
   }
+  //std::cout << "Hash: " << hash << std::endl;
   return table[hash];
 }
 
 void Hashtable::print(){
   for(int i = 0; i < tableSize; i++){
       if(table[i] != NULL){
-        std::cout <<"( Position: " << i << " ProfileDataPointer: " << table[i]->profileDataPointer << ", Friends: ";
+        std::cout <<"( Position: " << i << " Name: " << table[i]->name << " ProfileDataPointer: " << table[i]->profileDataPointer << ", Friends: ";
         for(FriendNode* j = table[i]->friendHead; j != NULL; j = j->nextFriend){
           std::cout << j->name << ", ";
         }
@@ -69,16 +71,29 @@ void Hashtable::print(){
 }
 
 std::string Hashtable::getFriends(std::string name){
-  //STUB!!!
-  return "stub";
+  HashNode* node = lookUp(name);
+  FriendNode* nodeFriend;
+  if(node != NULL)
+    nodeFriend = node->friendHead;
+  else
+    return "";
+  std::string friendsStr = "";
+  while(nodeFriend != NULL){
+    friendsStr += nodeFriend->name;
+    nodeFriend = nodeFriend->nextFriend;
+    if(nodeFriend != NULL)
+      friendsStr += " ";
+  }
+  return friendsStr;
 
 }
 
 int Hashtable::hashFunction(std::string name, int seed){
-  int hash = 0;
-  for(size_t i = 0;i < name.length();i++){
-    hash = hash * 101 + name[i];
+  long hash = 0;
+  for(int i = 0;i < int(name.length());i++){
+    hash = hash * 101 + int(name[i]);
   }
+  //std::cout << "Hashtable for loop" << hash <<std::endl;
   return (hash + seed) % 201;
   // STUB!!!
   //name="stub"; seed=-42; //I am doing this so we don't get unused parameter errors when compiling

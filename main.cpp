@@ -24,6 +24,7 @@ int main(){
 
     ifstream file("input.txt");
     string line;
+    Hashtable* h = new Hashtable();
     /*
       This only allows for one possible friend. Option for multiple friends is to create 
       the linked list of friends here, or create a node class to create the linked list with.
@@ -73,7 +74,7 @@ int main(){
           }
         }
       }
-      cout << name << endl << occupation << endl << age << endl;
+      cout << "Profile data for " << name << endl << "Occupation: " << occupation << endl << "Age: " <<  age << endl << "Friends: ";
       FriendNode* node = friendHead;
       while(node != NULL && node->nextFriend != NULL){
         cout << node->name << ",";
@@ -81,9 +82,11 @@ int main(){
       }
       cout << node->name << endl;
       f->insert(name, age, occupation, numInserted);
+      h->insert(name, numInserted, friendHead);
       numInserted++;
       // Insert into Hashtable, BTree, and ProfileData
     }
+    h->print();
 
     //INSERT: make friendl linkedlist
   }
