@@ -49,7 +49,7 @@ HashNode* Hashtable::lookUp(std::string name){
   //name="stub"; //I am doing this so we don't get unused parameter errors when compiling
   int seed = 0;
   int hash = hashFunction(name,seed);
-  while(table[hash] != NULL && table[hash]->name != name && seed < tableSize){
+  while(table[hash] != NULL && table[hash]->name != name && seed < tableSize){                     //do we need to do mod tableSize somewhere because what happens when the seed is greater than the size of the table and we want to go back to the beginning
     seed++;
     hash = hashFunction(name,seed);
     //std::cout << "Searching table in lookUp: " << seed <<  " " << hash << std::endl;
