@@ -12,7 +12,7 @@ BTree::BTree(){
 	//STUB!!!
 }
 
-int BTree::insert(std::string name, int profileDataPointer){
+int BTree::insertRoot(std::string name, int profileDataPointer){
   //start at the root
   //if the root is empty start a new tree
 
@@ -59,7 +59,7 @@ InternalNode* BTree::splitInternalNode(InternalNode* firstInternalNode){
    //this one should be called recursively until the invariant of the size of the internalNodearray=M is held, or until it reaches the root, in which case it splits
 }
 
-leafNode* BTree::createLeaf(std::string name; int profileDataPointer, leafNode* firstLeaf){
+ leafNode* BTree::createLeaf(std::string name, int profileDataPointer, leafNode* firstLeaf){
   leafNode secondLeaf = new leafNode();
   secondLeaf->itemCount=0;
   secondLeaf->items=new itemNode[L];
@@ -85,7 +85,7 @@ bool BTree::leafIsFull(LeafNode* leaf){
   else return false;
 }
 
-void BTree::addToLeaf(std::string name; int profileDataPointer; InternalNode* currentNode; int leafNodeIndex){
+ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex){
   currentNode->leafNodes[leafNodeIndex]->items[itemCount]->name=name;
   currentNode->leafNodes[leafNodeIndex]->items[itemCount]->profileDataPointer=profileDataPointer;
   currentNode->leafNodes[i]->itemCount++;

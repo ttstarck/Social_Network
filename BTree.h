@@ -14,7 +14,7 @@ class BTree{
 
   BTree();
 
-  int insert(std::string name, int profileDataPointer);
+  int insertRoot(std::string name, int profileDataPointer);
 
  private:
 
@@ -46,6 +46,15 @@ class BTree{
   void splitInternalNode(InternalNode* node);
 
   bool leafIsFull(LeafNode* leaf);
+
+
+  int insert(std::string name, int profileDataPointer, InternalNode* currentNode);
+
+  int insertInternalNode(std::string name, int profileDataPointer);
+
+  leafNode* createLeaf(std::string name, int profileDataPointer, leafNode* firstLeaf);
+
+  void addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex);
 
 };
 
