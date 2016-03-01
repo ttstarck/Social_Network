@@ -9,7 +9,7 @@
 #include <cstring>
 
 BTree::BTree(){
-	//STUB!!!
+  //STUB!!!
 }
 
 int BTree::insertRoot(std::string name, int profileDataPointer){
@@ -20,47 +20,48 @@ int BTree::insertRoot(std::string name, int profileDataPointer){
 }
 
 int BTree::insert(std::string name, int profileDataPointer, InternalNode* currentNode){
-	// STUB!!!
+  // STUB!!!
 
   for(int i=0; i<M; i++){
     if(name<currentNode->names[i]||(name>=currentNode->names[i]&&i==M-1)){
       //get to the next level
-      if(currentNode->leafNodes==NULL) insert(name, profileDataPointer, currentNode->nextNodes[i]);
+      if(currentNode->leaves==NULL) insert(name, profileDataPointer, currentNode->nextNodes[i]);
       else{                                                                       //if it points to a leaf node level, then 
-	if(!leafIsFull(currentNode->leafNodes[i])){                               //if leaf isn't full append to the end of the leaf
+	if(!leafIsFull(currentNode->leaves[i])){                               //if leaf isn't full append to the end of the leaf
 	  addToLeaf(name, profileDataPointer, currentNode; i);
 	}
 	else{                                                                     //do all the splitting if the leaf is full
 	  for(int j=M; j>i;j--){                                                  //shift everything else down
-	    currentNode->leafNodes[j+1]=currentNode->leafNodes[j];
+	    currentNode->leaves[j+1]=currentNode->leaves[j];
 	    currentNode->names[j]=currentNode->names[j-1];
 	  }
-	  leafNode addLeaf = createLeaf(name, profileDataPointer, currentNode->leafNodes[i]);
-	  currentNode->leafNodes[i+1] = addLeaf;
+	  LeafNode addLeaf = createLeaf(name, profileDataPointer, currentNode->leaves[i]);
+	  currentNode->leaves[i+1] = addLeaf;
 
-	  if(currentNode->leafNodes[M+1]!=NULL){
+	  if(currentNode->leaves[M+1]!=NULL){
 	    InternalNode* addNode =splitInternalNode(currentNode);
 	    insertInternalNode(currentNode, addNode);
-	}
-      } 
-    }
+	  }
+	} 
+      }
 
+    }
+    return -42;
   }
-	return -42;
 }
 
-
 InternalNode* BTree::splitInternalNode(InternalNode* firstInternalNode){
-
+  InternalNode* secondInternalNode;
   return secondInternalNode;
 }
 
- void BTree::insertInternalNode(InternalNode* currentNode, InternalNode* insertNode){
-   //this one should be called recursively until the invariant of the size of the internalNodearray=M is held, or until it reaches the root, in which case it splits
+int BTree::insertInternalNode(InternalNode* currentNode, InternalNode* insertNode){
+  //this one should be called recursively until the invariant of the size of the internalNodearray=M is held, or until it reaches the root, in which case it splits
+  return -42;
 }
 
- leafNode* BTree::createLeaf(std::string name, int profileDataPointer, leafNode* firstLeaf){
-  leafNode secondLeaf = new leafNode();
+LeafNode* BTree::createLeaf(std::string name, int profileDataPointer, leafNode* firstLeaf){
+  LeafNode secondLeaf = new LeafNode();
   secondLeaf->itemCount=0;
   secondLeaf->items=new itemNode[L];
   for(int i=0; i<L; i++){
@@ -85,8 +86,8 @@ bool BTree::leafIsFull(LeafNode* leaf){
   else return false;
 }
 
- void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex){
-  currentNode->leafNodes[leafNodeIndex]->items[itemCount]->name=name;
-  currentNode->leafNodes[leafNodeIndex]->items[itemCount]->profileDataPointer=profileDataPointer;
-  currentNode->leafNodes[i]->itemCount++;
+void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex){
+  currentNode->leaves[leafNodeIndex]->items[itemCount]->name=name;
+  currentNode->leaves[leafNodeIndex]->items[itemCount]->profileDataPointer=profileDataPointer;
+  currentNode->leaves[i]->itemCount++;
 }

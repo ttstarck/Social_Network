@@ -52,7 +52,7 @@ class BTree{
 
   int insertInternalNode(std::string name, int profileDataPointer);
 
-  leafNode* createLeaf(std::string name, int profileDataPointer, leafNode* firstLeaf);
+  LeafNode* createLeaf(std::string name, int profileDataPointer, leafNode* firstLeaf);
 
   void addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex);
 
