@@ -21,8 +21,8 @@ class BTree{
   struct ItemNode{
     int profileDataPointer;
     std::string name;
+    // I want to initialize the values of the struct when defining it    ItemNode(int profileDataPointer=-42, std::string="no name")
   };
-
   struct LeafNode{
     ItemNode** items;
     int itemCount;
@@ -33,6 +33,7 @@ class BTree{
     InternalNode** nextNodes;
     bool isLeaf;
     LeafNode** leaves;
+    //InternalNode* parentInternalNode;
   };
 
   InternalNode* root;

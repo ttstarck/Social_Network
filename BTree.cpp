@@ -36,11 +36,12 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
 	    currentNode->names[j]=currentNode->names[j-1];
 	  }
 	  LeafNode* addLeaf = splitLeaf(name, profileDataPointer, currentNode->leaves[i]);
+	  //when i split the leaf I have to put the name somewhere
 	  currentNode->leaves[i+1] = addLeaf;
 
 	  if(currentNode->leaves[M+1]!=NULL){
 	    InternalNode* addNode =splitInternalNode(currentNode);
-	    insertInternalNode(currentNode, addNode);
+	    insertInternalNode(currentNode, addNode);//this should not but the current node, but the parent of current node
 	  }
 	} 
       }
@@ -77,7 +78,19 @@ InternalNode* BTree::splitInternalNode(InternalNode* firstInternalNode){
     }
     j--;
   }
-  //for the rest set them to null
+
+  //for the rest of the leaves in the secondInternalNode set them to null
+  for(int i=M/2; i<M; i++){
+    secondInternalNode->names[i]=NULL;
+    int k=i+1;
+    if(firstInternalNode->leaves==NULL){
+      secondInternalNode->nextNodes[k]=NULL;
+    }
+    else{
+      secondInternalNode->leaves[k]=NULL;
+    }
+
+  }
 
   return secondInternalNode;
 }
@@ -115,7 +128,6 @@ bool BTree::leafIsFull(LeafNode* leaf){
 
 void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex){
   //also, when i insert an item, I have to add the name to some part of the currentnode names array
-
   currentNode->leaves[leafNodeIndex]->items[currentNode->leaves[leafNodeIndex]->itemCount]->name=name;
   currentNode->leaves[leafNodeIndex]->items[currentNode->leaves[leafNodeIndex]->itemCount]->profileDataPointer=profileDataPointer;
   currentNode->leaves[leafNodeIndex]->itemCount++;
