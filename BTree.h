@@ -43,19 +43,19 @@ class BTree{
 
   int numItemsInTree;
 
-  void splitInternalNode(InternalNode* node);
-
-  bool leafIsFull(LeafNode* leaf);
-
 
   int insert(std::string name, int profileDataPointer, InternalNode* currentNode);
 
-  int insertInternalNode(std::string name, int profileDataPointer);
+  void splitInternalNode(InternalNode* node);
 
-  LeafNode* createLeaf(std::string name, int profileDataPointer, leafNode* firstLeaf);
+  int insertInternalNode(InternalNode* currentNode, InternalNode* firstInternalNode);
 
+  LeafNode* splitLeaf(std::string name, int profileDataPointer, LeafNode* firstLeaf);
+
+  bool leafIsFull(LeafNode* leaf);
+  
   void addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex);
-
+  
 };
 
 #endif //BTREE_H
