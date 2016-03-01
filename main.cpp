@@ -25,10 +25,7 @@ int main(){
     ifstream file("input.txt");
     string line;
     Hashtable* h = new Hashtable();
-    /*
-      This only allows for one possible friend. Option for multiple friends is to create 
-      the linked list of friends here, or create a node class to create the linked list with.
-    */
+    
     while(getline(file,line)){
 
       string name = "";

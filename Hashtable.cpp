@@ -16,7 +16,6 @@ Hashtable::Hashtable(){
   for(int i = 0; i < tableSize; i++){
         table[i] = NULL;
   }
-  // STUB!!!
 }
 
 Hashtable::~Hashtable(){
