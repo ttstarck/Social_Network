@@ -10,39 +10,42 @@
 
 class BTree{
 
-public:
+ public:
 
-	BTree();
+  BTree();
 
-	int insert(std::string name, int profileDataPointer);
+  int insert(std::string name, int profileDataPointer);
 
-private:
+ private:
 
-	struct ItemNode{
-		int profileDataPointer;
-		std::string name;
-	};
+  struct ItemNode{
+    int profileDataPointer;
+    std::string name;
+  };
 
-	struct LeafNode{
-		ItemNode** items;
-	};
+  struct LeafNode{
+    ItemNode** items;
+    int itemCount;
+  };
 
-	struct InternalNode{
-		std::string* names;
-		InternalNode** nextNodes;
-		bool isLeaf;
-		LeafNode** leaves;
-	};
+  struct InternalNode{
+    std::string* names;
+    InternalNode** nextNodes;
+    bool isLeaf;
+    LeafNode** leaves;
+  };
 
-	InternalNode* root;
+  InternalNode* root;
 
-	int M;
+  int M;
 
-	int L;
+  int L;
 
-	int numItemsInTree;
+  int numItemsInTree;
 
-	void splitInternalNode(InternalNode* node);
+  void splitInternalNode(InternalNode* node);
+
+  bool leafIsFull(LeafNode* leaf);
 
 };
 
