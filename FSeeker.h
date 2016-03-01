@@ -11,24 +11,24 @@
 #include <stdlib.h>
 
 class FSeeker{
-	public:
+ public:
 
-  FSeeker(const char* fileName);
+  FSeeker(std::string fileName);
+  
+  std::string insert(std::string name, std::string age, std::string occupation, int numInserted);
+		
+  std::string getProfileData(int profileDataPointer);
 
-		std::string insert(std::string name, std::string age, std::string occupation, int numInserted);
+  std::string getName(int profileDataPointer);
 
-		std::string getProfileData(int profileDataPointer);
+  std::string getOccupation(int profileDataPointer);
 
-		std::string getName(int profileDataPointer);
+  std::string getAge(int profileDataPointer);
 
-		std::string getOccupation(int profileDataPointer);
+ private:
+  const char* fileName;
 
-		std::string getAge(int profileDataPointer);
-
-	private:
-		const char* fileName;
-
-		FILE * pFile;
+  FILE * pFile;
 
 };
 

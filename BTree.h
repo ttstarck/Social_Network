@@ -6,7 +6,7 @@
 #ifndef BTREE_H
 #define BTREE_H
 
-#include <cstring>
+#include <string>
 
 class BTree{
 
@@ -42,7 +42,7 @@ private:
 
 	int numItemsInTree;
 
-	void splitInternalNode();
+	void splitInternalNode(InternalNode* node);
 
 };
 

@@ -12,10 +12,10 @@
 #include <stdlib.h>
 #include <sstream>
 
-FSeeker::FSeeker(const char* fileName){
-  this->fileName=fileName;
+FSeeker::FSeeker(std::string fileName){
+  this->fileName=fileName.c_str();
   
-  pFile = fopen ( fileName , "w+" );
+  pFile = fopen ( this->fileName , "w+" );
 }
 
 //I am starting by inserting to the end of the file

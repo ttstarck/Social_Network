@@ -19,7 +19,7 @@ int main(){
   try{
     int numInserted = 0;
 
-    char* fileName = strdup("ProfileData.txt");
+    string fileName = "ProfileData.txt";
     FSeeker* f = new FSeeker(fileName);
 
     ifstream file("input.txt");
