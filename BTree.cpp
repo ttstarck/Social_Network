@@ -37,6 +37,10 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
 	  }
 	  leafNode addLeaf = createLeaf(name, profileDataPointer, currentNode->leafNodes[i]);
 	  currentNode->leafNodes[i+1] = addLeaf;
+
+	  if(currentNode->leafNodes[M+1]!=NULL){
+	    InternalNode* addNode =splitInternalNode(currentNode);
+	    insertInternalNode(currentNode, addNode);
 	}
       } 
     }
@@ -46,11 +50,16 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
 }
 
 
-void BTree::splitInternalNode(InternalNode* node){
+InternalNode* BTree::splitInternalNode(InternalNode* firstInternalNode){
 
+  return secondInternalNode;
 }
 
-leafNode BTree::createLeaf(std::string name; int profileDataPointer, leafNode* firstLeaf){
+ void BTree::insertInternalNode(InternalNode* currentNode, InternalNode* insertNode){
+   //this one should be called recursively until the invariant of the size of the internalNodearray=M is held, or until it reaches the root, in which case it splits
+}
+
+leafNode* BTree::createLeaf(std::string name; int profileDataPointer, leafNode* firstLeaf){
   leafNode secondLeaf = new leafNode();
   secondLeaf->itemCount=0;
   secondLeaf->items=new itemNode[L];
