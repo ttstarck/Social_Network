@@ -16,31 +16,54 @@ class BTree{
 
   int insertRoot(std::string name, int profileDataPointer);
 
- private:
+  // private:
 
   struct ItemNode{
     int profileDataPointer;
     std::string name;
-    // I want to initialize the values of the struct when defining it    ItemNode(int profileDataPointer=-42, std::string="no name")
+    ItemNode(){
+      profileDataPointer=-42;
+      name="no name item";
+    }
   };
   struct LeafNode{
     ItemNode** items;
     int itemCount;
+    LeafNode(){
+      items= new ItemNode*[L+1];
+      itemCount=0;
+    }
   };
 
   struct InternalNode{
     std::string* names;
     InternalNode** nextNodes;
-    bool isLeaf;
     LeafNode** leaves;
-    //InternalNode* parentInternalNode;
+    InternalNode* parentInternalNode;
+    InternalNode(bool pointsToLeaf){
+      names=new std::string[M];
+      for(int i=0; i<M+1; i++)
+	names[i]="no name index";
+      if(pointsToLeaf==false){
+	nextNodes=new InternalNode*[M+1];
+	for(int i=0; i<M+2; i++)
+	  nextNodes[i]=NULL;
+	leaves=NULL;
+      }
+      else{
+	nextNodes=NULL;
+	leaves=new LeafNode*[M+1];
+	for(int i=0; i<M+2; i++)
+	  leaves[i]=NULL;
+      }
+    }
   };
-
+ private:
   InternalNode* root;
 
-  int M;
+  static int M;
 
-  int L;
+  static int L;
 
   int numItemsInTree;
 
@@ -51,12 +74,17 @@ class BTree{
 
   int insertInternalNode(InternalNode* currentNode, InternalNode* firstInternalNode);
 
-  LeafNode* splitLeaf(std::string name, int profileDataPointer, LeafNode* firstLeaf);
+  void splitLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int LeafIndex);
 
   bool leafIsFull(LeafNode* leaf);
   
   void addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex);
-  
+  /*  
+  void initializeItemNode(ItemNode* initialItem);
+
+  void initializeLeafNode(LeafNode* initialLeaf);
+
+  void initializeInternalNode(InternalNode* initialInternalNode, bool pointsToLeaf);*/
 };
 
 #endif //BTREE_H

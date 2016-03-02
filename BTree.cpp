@@ -9,12 +9,17 @@
 #include <cstring>
 
 BTree::BTree(){
+  M=5;
+  L=3;
   //STUB!!!
 }
 
 int BTree::insertRoot(std::string name, int profileDataPointer){
   //start at the root
   //if the root is empty start a new tree
+  if(root==NULL){
+    root= new InternalNode(true);
+  }
 
   insert(name, profileDataPointer, root);
 }
@@ -35,13 +40,11 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
 	    currentNode->leaves[j+1]=currentNode->leaves[j];
 	    currentNode->names[j]=currentNode->names[j-1];
 	  }
-	  LeafNode* addLeaf = splitLeaf(name, profileDataPointer, currentNode->leaves[i]);
-	  //when i split the leaf I have to put the name somewhere
-	  currentNode->leaves[i+1] = addLeaf;
+	  splitLeaf(name, profileDataPointer, currentNode, i);
 
 	  if(currentNode->leaves[M+1]!=NULL){
-	    InternalNode* addNode =splitInternalNode(currentNode);
-	    insertInternalNode(currentNode, addNode);//this should not but the current node, but the parent of current node
+	    splitInternalNode(currentNode);
+
 	  }
 	} 
       }
@@ -51,11 +54,11 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
   }
 }
 
-InternalNode* BTree::splitInternalNode(InternalNode* firstInternalNode){
-  InternalNode* secondInternalNode= new InternalNode();
+void BTree::splitInternalNode(InternalNode* firstInternalNode){
+  /*  InternalNode* secondInternalNode= new InternalNode();
   secondInternalNode->names=new std::string[M+1];
   secondInternalNodes->isLeaf=false;
-  if(firstInternalNodes->leaves==NULL){
+  if(firstInternalNode->leaves==NULL){
     secondInternalNode->leaves=NULL;
     secondInternalNode->nextNodes=new InternalNode[M+2];
   }
@@ -92,7 +95,8 @@ InternalNode* BTree::splitInternalNode(InternalNode* firstInternalNode){
 
   }
 
-  return secondInternalNode;
+  //i want to add the secondInternal node in the parent node where it belongs
+  insertInternalNode(currentNode, secondInternalNode);//this should not but the current node, but the parent of current node*/
 }
 
 int BTree::insertInternalNode(InternalNode* currentNode, InternalNode* insertNode){
@@ -100,10 +104,10 @@ int BTree::insertInternalNode(InternalNode* currentNode, InternalNode* insertNod
   return -42;
 }
 
-LeafNode* BTree::splitLeaf(std::string name, int profileDataPointer, leafNode* firstLeaf){
-  LeafNode secondLeaf = new LeafNode();
+void BTree::splitLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafIndex){
+  LeafNode* secondLeaf = new LeafNode();
   secondLeaf->itemCount=0;
-  secondLeaf->items=new itemNode[L];
+  secondLeaf->items=new ItemNode*[L];
   for(int i=0; i<L; i++){
     secondLeaf->items[i]=NULL;
   }
@@ -112,13 +116,14 @@ LeafNode* BTree::splitLeaf(std::string name, int profileDataPointer, leafNode* f
   int middle =L/2;
   int j=L/2;
   for(int i=middle; i<L; i++){
-    secondLeaf->items[j]=firstLeaf->items[i];
-    firstLeaf->items[i]=NULL;
-    firstLeaf->itemCount--;
+    secondLeaf->items[j]=currentNode->leaves[leafIndex]->items[i];
+    currentNode->leaves[leafIndex]->items[i]=NULL;
+    currentNode->leaves[leafIndex]->itemCount--;
     secondLeaf->itemCount++;
     j--;
   }
-  return secondLeaf;
+
+  currentNode->leaves[leafIndex+1] = secondLeaf;
 }
 
 bool BTree::leafIsFull(LeafNode* leaf){
@@ -132,3 +137,31 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
   currentNode->leaves[leafNodeIndex]->items[currentNode->leaves[leafNodeIndex]->itemCount]->profileDataPointer=profileDataPointer;
   currentNode->leaves[leafNodeIndex]->itemCount++;
 }
+/*
+void BTree::initializeItemNode(ItemNode* initialItem){
+  initialItem->profileDataPointer=-42;
+  initialItem->name="no name";
+}
+
+void BTree::initializeLeafNode(LeafNode* initialLeaf){
+  initialLeaf->items= new ItemNode[L+1];
+  for(int i=0; i<L;i++)
+    initialLeaf->items[i]=new ItemNode();
+  initialLeaf->itemCount=0;
+}
+void BTree::initializeInternalNode(InternalNode* initialInternalNode, bool pointsToLeaf){
+  initialInternalNode->names=new std::string[M];
+  if(pointsToLeaf==true){
+    initialInternalNode->nextNodes=NULL;
+    initialInternalNode->leaves= new LeafNode[M+1];
+    for(int i=0; i<M+1; i++)
+      initializeLeafNode(initialInternalNode->leaves[i]);
+  }
+  else{
+    initialInternalNode->nextNodes= new initialInternalNode[M+1];
+    for(int i; i<M+1; i++) 
+      initializeInternalNode(initialInternalNode->nextNodes[i],false);
+    initialInternalNode->leaves=NULL;
+  }
+}
+*/
