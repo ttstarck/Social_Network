@@ -52,10 +52,10 @@ int main(){
         else if(position == 0)
           name += line[i];
         else if(position == 1){
-          occupation += line[i];
+          age += line[i];
         }
         else if(position == 2){
-          age += line[i];
+          occupation += line[i];
         }
         else{
           if(anotherFriend){
