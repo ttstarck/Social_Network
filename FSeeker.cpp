@@ -33,14 +33,15 @@ std::string FSeeker::insert(std::string name, std::string age, std::string occup
   fseek ( pFile , 3-strlen(addAge) , SEEK_CUR);
   fputs ( addOccupation, pFile);
   fseek ( pFile , 30-strlen(addOccupation) , SEEK_CUR );
+
   return "inserted";
 }
 
 std::string FSeeker::getProfileData(int profileDataPointer){
-  std::string profileData="";
-  profileData+=getName(profileDataPointer);
-  profileData+=getAge(profileDataPointer);
-  profileData+=getOccupation(profileDataPointer);
+  std::string profileData = "";
+  profileData += getName(profileDataPointer);
+  profileData += "," + getAge(profileDataPointer);
+  profileData += "," + getOccupation(profileDataPointer);
   //how do we want to return it?
 
   return profileData;
@@ -49,32 +50,50 @@ std::string FSeeker::getProfileData(int profileDataPointer){
 std::string FSeeker::getName(int profileDataPointer){
   int nameStart = profileDataPointer*53;
   char* nameData = new char[20];
-  FILE * pFile;
-  pFile = fopen ( fileName , "r" );
-  fseek(pFile, nameStart, SEEK_SET);
-  nameData = fgets(nameData, 20, pFile);
+  FILE * rFile;
+  rFile = fopen ( fileName , "r" );
+  fseek(rFile, nameStart, SEEK_SET);
+  nameData = fgets(nameData, 20, rFile);
 
-  return nameData;
-}
+  fclose(rFile);
 
-std::string FSeeker::getAge(int profileDataPointer){
-  int occupationStart = profileDataPointer*53+20;
-  char* occupationData = new char[3];
-  FILE * pFile;
-  pFile = fopen ( fileName , "r" );
-  fseek(pFile, occupationStart, SEEK_SET);
-  occupationData = fgets(occupationData, 3, pFile);
+  std::string nameDataStr = nameData;
 
-  return occupationData;
+  delete[] nameData;
+
+  return nameDataStr;
 }
 
 std::string FSeeker::getOccupation(int profileDataPointer){
-  int ageStart = profileDataPointer*53+23;
-  char* ageData = new char[30];
-  FILE * pFile;
-  pFile = fopen ( fileName , "r" );
-  fseek(pFile, ageStart, SEEK_SET);
-  ageData = fgets(ageData, 30, pFile);
+  int occupationStart = profileDataPointer*53+23;
+  char* occupationData = new char[30];
+  FILE * rFile;
+  rFile = fopen ( fileName , "r" );
+  fseek(rFile, occupationStart, SEEK_SET);
+  occupationData = fgets(occupationData, 30, rFile);
 
-  return ageData;
+  fclose(rFile);
+
+  std::string occupationDataStr = occupationData;
+
+  delete[] occupationData;
+
+  return occupationDataStr;
+}
+
+std::string FSeeker::getAge(int profileDataPointer){
+  int ageStart = profileDataPointer*53+20;
+  char* ageData = new char[3];
+  FILE * rFile;
+  rFile = fopen ( fileName , "r" );
+  fseek(rFile, ageStart, SEEK_SET);
+  ageData = fgets(ageData, 3, rFile);
+
+  fclose(rFile);
+
+  std::string ageDataStr = ageData;
+
+  delete[] ageData;
+
+  return ageDataStr;
 }

@@ -140,12 +140,12 @@ void FSeekerTest(){
   }
   
   cout << "getProfileData function: ";
-  if(f->getProfileData(0)=="Kanye38musician"){
+  if(f->getProfileData(0)=="Kanye,38,musician"){
     numTestsPassed++;
     cout << pass << endl;
   }
   else{
-    cout <<  fail << "   Expected result: " << "Kanye38musician" << " Actual result: " << (f->getProfileData(0)) << endl;
+    cout <<  fail << "   Expected result: " << "Kanye,38,musician" << " Actual result: " << (f->getProfileData(0)) << endl;
     numTestsFailed++;
   }
   cout << "getName function: "; 

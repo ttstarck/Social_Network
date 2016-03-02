@@ -24,6 +24,8 @@ public:
 
 	std::string getFriends(std::string name);
 
+	void addFriendship(std::string name1, std::string name2);
+
 private:
 
 	int tableSize;

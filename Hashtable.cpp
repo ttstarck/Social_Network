@@ -80,10 +80,39 @@ std::string Hashtable::getFriends(std::string name){
   while(nodeFriend != NULL){
     friendsStr += nodeFriend->name;
     nodeFriend = nodeFriend->nextFriend;
-    if(nodeFriend != NULL)
-      friendsStr += " ";
+    if(nodeFriend != NULL && nodeFriend->nextFriend != NULL)
+      friendsStr += ",";
   }
   return friendsStr;
+
+}
+
+void Hashtable::addFriendship(std::string name1, std::string name2){
+  HashNode* person1 = lookUp(name1);
+  HashNode* person2 = lookUp(name2);
+  
+  if(person1 == NULL || person2 == NULL)
+    return;
+  
+  FriendNode* friendsList1 = person1->friendHead;
+  FriendNode* friendsList2 = person2->friendHead;
+  
+  while(friendsList1 != NULL){
+    if(friendsList1->name == name2){
+      return;
+    }
+    friendsList1 = friendsList1->nextFriend;
+  }
+
+  FriendNode* friend1 = new FriendNode;
+  friend1->name = name1;
+  friend1->nextFriend = person2->friendHead;
+  person2->friendHead = friend1;
+
+  FriendNode* friend2 = new FriendNode;
+  friend2->name = name2;
+  friend2->nextFriend = person1->friendHead;
+  person1->friendHead = friend2;
 
 }
 

@@ -6,6 +6,7 @@
 #include "FriendNode.h"
 #include "Hashtable.h"
 #include "HashNode.h"
+//#include "BTree.h"
 
 #include <iostream>
 #include <exception>
@@ -14,6 +15,10 @@
 #include <cstdio>
 
 using namespace std;
+
+void getFriendsProfileData(string name, Hashtable* h, FSeeker* f);
+
+void printSocialNetwork(Hashtable* h, FSeeker* f, int totalUsers);
 
 int main(){
   try{
@@ -85,9 +90,68 @@ int main(){
     }
     h->print();
 
-    //INSERT: make friendl linkedlist
+    printSocialNetwork(h, f, numInserted);
+    /*
+    
+    DONE: getFriendsProfileData and addFriendship both works here
+
+    getFriendsProfileData("Wyatt", h, f);
+    getFriendsProfileData("Dominic", h, f);
+    h->addFriendship("Wyatt", "Dominic");
+    getFriendsProfileData("Wyatt", h, f);
+    getFriendsProfileData("Dominic", h, f);
+    
+    */
+
   }
   catch(exception& ex){
     cerr << ex.what() << endl;
   }
 }
+
+void getFriendsProfileData(string name,Hashtable* h, FSeeker* f){
+  HashNode* person = h->lookUp(name);
+  if(person == NULL)
+    return;
+  FriendNode* friendHead = person->friendHead;
+  
+  cout << "Profile data on the friends of " << name << endl;
+
+  while(friendHead != NULL){
+    string friendName = friendHead->name;
+    HashNode* friendHashN = h->lookUp(friendName);
+    if(friendHashN != NULL){
+      cout << f->getProfileData(friendHashN->profileDataPointer) << endl;
+    }
+    friendHead = friendHead->nextFriend;
+  }
+
+  if(friendHead == NULL)
+    return;
+}
+
+void printSocialNetwork(Hashtable* h, FSeeker* f, int totalUsers){
+  for(int i = 0; i < totalUsers; i++){
+    string name = f->getName(i);
+    //cout << name << endl;
+    cout << f->getProfileData(i) << "," << h->getFriends(name) << endl;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
