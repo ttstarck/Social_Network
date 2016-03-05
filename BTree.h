@@ -31,6 +31,9 @@ class BTree{
     int itemCount;
     LeafNode(){
       items= new ItemNode*[L+1];
+      for(int i=0; i< L+1; i++){
+	items[i]=NULL;
+      }
       itemCount=0;
     }
   };
@@ -39,8 +42,9 @@ class BTree{
     std::string* names;
     InternalNode** nextNodes;
     LeafNode** leaves;
-    InternalNode* parentInternalNode;
+    InternalNode* parent;
     InternalNode(bool pointsToLeaf){
+      parent=NULL;
       names=new std::string[M];
       for(int i=0; i<M+1; i++)
 	names[i]="no name index";
@@ -67,24 +71,23 @@ class BTree{
 
   int numItemsInTree;
 
-
+  //helper functions
   int insert(std::string name, int profileDataPointer, InternalNode* currentNode);
 
+  void addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex);
+
+  void splitLeaf(InternalNode* nameNode, int leafIndex);
+  
   void splitInternalNode(InternalNode* node);
 
-  int insertInternalNode(InternalNode* currentNode, InternalNode* firstInternalNode);
+  std::string getNameIndex(InternalNode* nameNode);
 
-  void splitLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int LeafIndex);
+  //printing functions to test insert
+  void printItem(ItemNode* item);
 
-  bool leafIsFull(LeafNode* leaf);
-  
-  void addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex);
-  /*  
-  void initializeItemNode(ItemNode* initialItem);
+  void printLeafNode(LeafNode* leaf);
 
-  void initializeLeafNode(LeafNode* initialLeaf);
-
-  void initializeInternalNode(InternalNode* initialInternalNode, bool pointsToLeaf);*/
+  void printInternalNode(InternalNode* internalNode);
 };
 
 #endif //BTREE_H
