@@ -9,8 +9,7 @@
 #include <cstring>
 
 BTree::BTree(){
-  M=5;
-  L=3;
+
 }
 
 int BTree::insertRoot(std::string name, int profileDataPointer){
@@ -170,8 +169,7 @@ void BTree::printInternalNode(InternalNode* internalNode){
 }
 
 void BTree::tests(){
-  //create a new Item and see what it looks like
-  ItemNode* testItem=new ItemNode();
-  printItem(testItem);
-
+  LeafNode* leafTest = new LeafNode();
+  printLeafNode(leafTest);
+  
 }

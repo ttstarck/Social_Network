@@ -67,9 +67,9 @@ class BTree{
   //private:
   InternalNode* root;
 
-  static int M;
+  static const int M=5;
 
-  static int L;
+  static const int L=3;
 
   int numItemsInTree;
 

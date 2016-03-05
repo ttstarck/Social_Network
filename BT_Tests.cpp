@@ -10,6 +10,7 @@
 
 using namespace std;
 int main(){
-
+  BTree* treeTests= new BTree();
+  treeTests->tests();
 
 }
