@@ -16,7 +16,9 @@ class BTree{
 
   int insertRoot(std::string name, int profileDataPointer);
 
-  // private:
+  void tests();
+
+  private:
 
   struct ItemNode{
     int profileDataPointer;
@@ -62,7 +64,7 @@ class BTree{
       }
     }
   };
- private:
+  //private:
   InternalNode* root;
 
   static int M;
@@ -88,6 +90,8 @@ class BTree{
   void printLeafNode(LeafNode* leaf);
 
   void printInternalNode(InternalNode* internalNode);
+
+
 };
 
 #endif //BTREE_H

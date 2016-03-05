@@ -145,13 +145,33 @@ std::string BTree::getNameIndex(InternalNode* nameNode){
 
 
 void BTree::printItem(ItemNode* item){
-
+  std::cout<< item->profileDataPointer<< " "<< item->name;
 }
 
 void BTree::printLeafNode(LeafNode* leaf){
-
-  
+  for(int i=0; i<L; i++){
+    printItem(leaf->items[i]);
+    std::cout<<std::endl;
+  }
+  std::cout<<std::endl;
 }
 void BTree::printInternalNode(InternalNode* internalNode){
+  //print nameIndexes
+  for(int i=0; i<M; i++){
+    std::cout<<internalNode->names[i]<<" ";
+  }
+  for(int i=0; i<M+1; i++){
+    if(internalNode->leaves!=NULL){
+      printLeafNode(internalNode->leaves[i]);
+    }
+    else
+      printInternalNode(internalNode->nextNodes[i]);
+  }
+}
+
+void BTree::tests(){
+  //create a new Item and see what it looks like
+  ItemNode* testItem=new ItemNode();
+  printItem(testItem);
 
 }
