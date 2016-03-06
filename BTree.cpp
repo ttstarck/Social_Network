@@ -56,6 +56,22 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
   currentNode->leaves[leafNodeIndex]->items[numItems]->name=name;
   currentNode->leaves[leafNodeIndex]->items[numItems]->profileDataPointer=profileDataPointer;
   currentNode->leaves[leafNodeIndex]->itemCount++;
+  numItems++;
+  //if we are at the beginning, sort them
+  if(leafNodeIndex==0){
+    for(int i=numItems-1; i>=1; i--){
+      if(currentNode->leaves[leafNodeIndex]->items[i]->name<currentNode->leaves[leafNodeIndex]->items[i-1]->name){
+	ItemNode* temp= new ItemNode();
+	temp->name=currentNode->leaves[leafNodeIndex]->items[i]->name;
+	temp->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer;
+	currentNode->leaves[leafNodeIndex]->items[i]->name=currentNode->leaves[leafNodeIndex]->items[i-1]->name;
+	currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer;
+	currentNode->leaves[leafNodeIndex]->items[i-1]->name=temp->name;
+	currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer=temp->profileDataPointer;
+	delete temp; //does this work for a struct?
+      }
+    }
+  }
 }
 
 void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
