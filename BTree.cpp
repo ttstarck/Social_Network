@@ -36,6 +36,7 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
 	    splitInternalNode(currentNode);
 	  }
 	}
+	std::cout<<"after break"<<std::endl;
 	break;
       }
     }
