@@ -7,6 +7,7 @@
 #define BTREE_H
 
 #include <string>
+#include <iostream>
 
 class BTree{
 
@@ -48,7 +49,7 @@ class BTree{
     InternalNode(bool pointsToLeaf){
       parent=NULL;
       names=new std::string[M];
-      for(int i=0; i<M+1; i++)
+      for(int i=0; i<M; i++)
 	names[i]="no name index";
       if(pointsToLeaf==false){
 	nextNodes=new InternalNode*[M+1];

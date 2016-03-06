@@ -36,7 +36,7 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
       } 
     }
   }
-    return 1;
+  return 1;
 }
 
 
@@ -130,7 +130,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   }
     
   //if the parent doesn't pass the M invariant then call splitInternalNode again
-  if(firstInternalNode->parent->names[M-1]=="no name idex")
+  if(firstInternalNode->parent->names[M-1]=="no name index")
     splitInternalNode(firstInternalNode->parent);
 }
 
@@ -148,28 +148,44 @@ void BTree::printItem(ItemNode* item){
 }
 
 void BTree::printLeafNode(LeafNode* leaf){
-  for(int i=0; i<L; i++){
-    printItem(leaf->items[i]);
-    std::cout<<std::endl;
+  for(int i=0; i<L+1; i++){
+    if(leaf->items[i]!=NULL){
+      printItem(leaf->items[i]);
+      std::cout<<std::endl;
+    }
   }
   std::cout<<std::endl;
 }
 void BTree::printInternalNode(InternalNode* internalNode){
   //print nameIndexes
+  std::string nameString="";
   for(int i=0; i<M; i++){
-    std::cout<<internalNode->names[i]<<" ";
+    nameString+=internalNode->names[i]+" ";
   }
+  std::cout<<nameString<<std::endl;
   for(int i=0; i<M+1; i++){
     if(internalNode->leaves!=NULL){
-      printLeafNode(internalNode->leaves[i]);
+      if(internalNode->leaves[i]!=NULL)
+	printLeafNode(internalNode->leaves[i]);
     }
     else
-      printInternalNode(internalNode->nextNodes[i]);
+      if(internalNode->nextNodes[i]!=NULL)
+	printInternalNode(internalNode->nextNodes[i]);
   }
 }
 
 void BTree::tests(){
   LeafNode* leafTest = new LeafNode();
-  printLeafNode(leafTest);
-  
+  leafTest->items[0]=new ItemNode();
+  leafTest->items[1]=new ItemNode();
+  leafTest->items[2]=new ItemNode();
+  leafTest->items[3]=new ItemNode();
+  leafTest->items[0]->name="Kelly";
+  leafTest->items[0]->profileDataPointer=1;
+
+  InternalNode* internalTest= new InternalNode(true);
+
+  internalTest->names[0]="Kelly";
+  internalTest->leaves[0]=leafTest;
+  printInternalNode(internalTest);
 }
