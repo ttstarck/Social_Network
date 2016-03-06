@@ -9,7 +9,7 @@
 #include <cstring>
 
 BTree::BTree(){
-
+  root=NULL;
 }
 
 int BTree::insertRoot(std::string name, int profileDataPointer){
@@ -24,25 +24,35 @@ int BTree::insertRoot(std::string name, int profileDataPointer){
 int BTree::insert(std::string name, int profileDataPointer, InternalNode* currentNode){
   //look through all the names and find the spot
   for(int i=0; i<M; i++){
-    if(name<currentNode->names[i]||(name>=currentNode->names[i]&&i==M-1)){
-      if(currentNode->leaves==NULL) insert(name, profileDataPointer, currentNode->nextNodes[i]);           //if there is another layer of nodes, go to the next layer
+    if((currentNode->names[i]=="no name index")||(currentNode->names[i]!="no name index" &&name<currentNode->names[i])||(name>=currentNode->names[i]&&i==M-1)){
+      if(currentNode->leaves==NULL){
+	insert(name, profileDataPointer, currentNode->nextNodes[i]);           //if there is another layer of nodes, go to the next layer
+      }
       else{
-        addToLeaf(name, profileDataPointer, currentNode, i);
+	addToLeaf(name, profileDataPointer, currentNode, i);
 	if(currentNode->leaves[i]->itemCount>L){           //if when I add the element to the leaf, I surpass the limit for the number of elements in the leaf
 	  splitLeaf(currentNode, i);
-	  if(currentNode->names[M-1]!="no name index")                //if when I split the leaf I now surpassed the limit to the number of elements in the Node
+	  if(currentNode->names[M-1]!="no name index"){                //if when I split the leaf I now surpassed the limit to the number of elements in the Node
 	    splitInternalNode(currentNode);
+	  }
 	}
-      } 
+	break;
+      }
     }
   }
   return 1;
 }
-
+  
 
 void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex){
+  if(currentNode->leaves[leafNodeIndex]==NULL){
+    currentNode->leaves[leafNodeIndex]= new LeafNode();
+  }
   //add to the end of the array
   int numItems = currentNode->leaves[leafNodeIndex]->itemCount;
+  if(currentNode->leaves[leafNodeIndex]->items[numItems]==NULL){
+    currentNode->leaves[leafNodeIndex]->items[numItems]=new ItemNode();
+  }
   currentNode->leaves[leafNodeIndex]->items[numItems]->name=name;
   currentNode->leaves[leafNodeIndex]->items[numItems]->profileDataPointer=profileDataPointer;
   currentNode->leaves[leafNodeIndex]->itemCount++;
@@ -175,17 +185,22 @@ void BTree::printInternalNode(InternalNode* internalNode){
 }
 
 void BTree::tests(){
-  LeafNode* leafTest = new LeafNode();
-  leafTest->items[0]=new ItemNode();
-  leafTest->items[1]=new ItemNode();
-  leafTest->items[2]=new ItemNode();
-  leafTest->items[3]=new ItemNode();
-  leafTest->items[0]->name="Kelly";
-  leafTest->items[0]->profileDataPointer=1;
+  /* LeafNode* leafTest = new LeafNode();
+     leafTest->items[0]=new ItemNode();
+     leafTest->items[1]=new ItemNode();
+     leafTest->items[2]=new ItemNode();
+     leafTest->items[3]=new ItemNode();
+     leafTest->items[0]->name="Kelly";
+     leafTest->items[0]->profileDataPointer=1;
 
-  InternalNode* internalTest= new InternalNode(true);
+     InternalNode* internalTest= new InternalNode(true);
 
-  internalTest->names[0]="Kelly";
-  internalTest->leaves[0]=leafTest;
-  printInternalNode(internalTest);
+     internalTest->names[0]="Kelly";
+     internalTest->leaves[0]=leafTest;
+     printInternalNode(internalTest);*/
+
+  insertRoot("Kelly", 1);
+  insertRoot("Tristan",2);
+  insertRoot("David", 3);
+  printInternalNode(root);
 }
