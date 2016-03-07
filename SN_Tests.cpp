@@ -86,12 +86,12 @@ void hashTableTest(){
     cout << fail << endl;
   }
   cout << "getFriends function2: ";
-  if( h->getFriends("Chris") == "Bob Bill"){
+  if( h->getFriends("Chris") == "Bob,Bill"){
     numTestsPassed++;
     cout << pass << endl;
   }
   else{
-    cout << " Expected result: " << "Bob Bill" << " Actual result: " << (h->getFriends("Chris")) << endl;
+    cout << " Expected result: " << "Bob,Bill" << " Actual result: " << (h->getFriends("Chris")) << endl;
     numTestsFailed++;
     cout << fail << endl;
   }

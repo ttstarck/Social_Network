@@ -6,7 +6,7 @@
 #include "FriendNode.h"
 #include "Hashtable.h"
 #include "HashNode.h"
-//#include "BTree.h"
+#include "BTree.h"
 
 #include <iostream>
 #include <exception>
@@ -30,6 +30,7 @@ int main(){
     ifstream file("input.txt");
     string line;
     Hashtable* h = new Hashtable();
+    BTree* b = new BTree();
     
     while(getline(file,line)){
 
@@ -76,32 +77,69 @@ int main(){
           }
         }
       }
-      cout << "Profile data for " << name << endl << "Occupation: " << occupation << endl << "Age: " <<  age << endl << "Friends: ";
+      /*cout << "Profile data for " << name << endl << "Occupation: " << occupation << endl << "Age: " <<  age << endl << "Friends: ";
       FriendNode* node = friendHead;
       while(node != NULL && node->nextFriend != NULL){
         cout << node->name << ",";
         node = node->nextFriend;
       }
       cout << node->name << endl;
+      */
       f->insert(name, age, occupation, numInserted);
       h->insert(name, numInserted, friendHead);
+      b->insertRoot(name,numInserted);
       numInserted++;
       // Insert into Hashtable, BTree, and ProfileData
     }
-    h->print();
-
-    printSocialNetwork(h, f, numInserted);
-    /*
     
-    DONE: getFriendsProfileData and addFriendship both works here
+    while(true)
+    {
+      string str;
+      cin >> str;
+      if(cin.eof())
+      {
+        break;
+      }
+      if(str.compare("exit") == 0)
+      {
+        break;
+      }
+      else if(str.compare("insert") == 0)
+      {
+        string name;
+        string age;
+        string occupation;
+        
+        cin >> name >> age >> occupation;
 
-    getFriendsProfileData("Wyatt", h, f);
-    getFriendsProfileData("Dominic", h, f);
-    h->addFriendship("Wyatt", "Dominic");
-    getFriendsProfileData("Wyatt", h, f);
-    getFriendsProfileData("Dominic", h, f);
-    
-    */
+        f->insert(name,age,occupation,numInserted);
+        h->insert(name, numInserted, NULL);
+        b->insertRoot(name,numInserted);
+        numInserted++;
+      }
+      else if(str.compare("addFriendship") == 0)
+      {
+        string name1;
+        string name2;
+        cin >> name1 >> name2;
+        h->addFriendship(name1, name2);
+      }
+      else if(str.compare("getFriendsProfileData") == 0)
+      {
+        string name;
+        cin >> name;
+        getFriendsProfileData(name, h, f);
+      }
+      else if(str.compare("printAll") == 0)
+      {
+        printSocialNetwork(h,f,numInserted);
+      }
+      else
+      {
+        cin.clear();
+        cout << "Inputed string format was incorrect" << endl;
+      }
+    }
 
   }
   catch(exception& ex){

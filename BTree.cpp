@@ -10,6 +10,7 @@
 
 BTree::BTree(){
   root=NULL;
+  numItemsInTree = 0;
 }
 
 int BTree::insertRoot(std::string name, int profileDataPointer){
@@ -18,7 +19,7 @@ int BTree::insertRoot(std::string name, int profileDataPointer){
     root= new InternalNode(true);
   }
   //then add the information to the tree
-  insert(name, profileDataPointer, root);
+  return insert(name, profileDataPointer, root);
 }
 
 int BTree::insert(std::string name, int profileDataPointer, InternalNode* currentNode){
@@ -26,18 +27,18 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
   for(int i=0; i<M; i++){
     if((currentNode->names[i]=="no name index")||(currentNode->names[i]!="no name index" &&name<currentNode->names[i])||(name>=currentNode->names[i]&&i==M-1)){
       if(currentNode->leaves==NULL){
-	insert(name, profileDataPointer, currentNode->nextNodes[i]);           //if there is another layer of nodes, go to the next layer
+        insert(name, profileDataPointer, currentNode->nextNodes[i]);           //if there is another layer of nodes, go to the next layer
       }
       else{
-	addToLeaf(name, profileDataPointer, currentNode, i);
-	if(currentNode->leaves[i]->itemCount>L){           //if when I add the element to the leaf, I surpass the limit for the number of elements in the leaf
-	  splitLeaf(currentNode, i);
-	  if(currentNode->names[M-1]!="no name index"){                //if when I split the leaf I now surpassed the limit to the number of elements in the Node
-	    splitInternalNode(currentNode);
-	  }
-	}
-	std::cout<<"after break"<<std::endl;
-	break;
+        addToLeaf(name, profileDataPointer, currentNode, i);
+        if(currentNode->leaves[i]->itemCount>L){           //if when I add the element to the leaf, I surpass the limit for the number of elements in the leaf
+          splitLeaf(currentNode, i);
+          if(currentNode->names[M-1]!="no name index"){                //if when I split the leaf I now surpassed the limit to the number of elements in the Node
+            splitInternalNode(currentNode);
+          }
+        }
+        std::cout<<"after break"<<std::endl;
+        break;
       }
     }
   }

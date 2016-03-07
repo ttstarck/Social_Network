@@ -25,19 +25,19 @@ class BTree{
     int profileDataPointer;
     std::string name;
     ItemNode(){
-      profileDataPointer=-42;
-      name="no name item";
+      profileDataPointer = -42;
+      name = "no name item";
     }
   };
   struct LeafNode{
     ItemNode** items;
     int itemCount;
     LeafNode(){
-      items= new ItemNode*[L+1];
-      for(int i=0; i< L+1; i++){
-	items[i]=NULL;
+      items = new ItemNode*[L+1];
+      for(int i = 0; i < L+1; i++){
+        items[i] = NULL;
       }
-      itemCount=0;
+      itemCount = 0;
     }
   };
 
@@ -47,30 +47,30 @@ class BTree{
     LeafNode** leaves;
     InternalNode* parent;
     InternalNode(bool pointsToLeaf){
-      parent=NULL;
-      names=new std::string[M];
-      for(int i=0; i<M; i++)
-	names[i]="no name index";
-      if(pointsToLeaf==false){
-	nextNodes=new InternalNode*[M+1];
-	for(int i=0; i<M+2; i++)
-	  nextNodes[i]=NULL;
-	leaves=NULL;
+      parent = NULL;
+      names = new std::string[M];
+      for(int i = 0; i < M; i++)
+        names[i] = "no name index";
+      if(pointsToLeaf == false){
+        nextNodes = new InternalNode*[M+1];
+        for(int i = 0; i < M+1; i++)
+          nextNodes[i] = NULL;
+        leaves=NULL;
       }
       else{
-	nextNodes=NULL;
-	leaves=new LeafNode*[M+1];
-	for(int i=0; i<M+2; i++)
-	  leaves[i]=NULL;
+        nextNodes = NULL;
+        leaves = new LeafNode*[M+1];
+        for(int i = 0; i < M+1; i++)
+          leaves[i] = NULL;
       }
     }
   };
   //private:
   InternalNode* root;
 
-  static const int M=5;
+  static const int M = 5;
 
-  static const int L=3;
+  static const int L = 3;
 
   int numItemsInTree;
 

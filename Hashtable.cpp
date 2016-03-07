@@ -80,7 +80,7 @@ std::string Hashtable::getFriends(std::string name){
   while(nodeFriend != NULL){
     friendsStr += nodeFriend->name;
     nodeFriend = nodeFriend->nextFriend;
-    if(nodeFriend != NULL && nodeFriend->nextFriend != NULL)
+    if(nodeFriend != NULL)
       friendsStr += ",";
   }
   return friendsStr;
