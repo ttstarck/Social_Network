@@ -178,7 +178,7 @@ void BTree::printItem(ItemNode* item){
 }
 
 void BTree::printLeafNode(LeafNode* leaf){
-  for(int i=0; i<L+1; i++){
+  for(int i=0; i<L; i++){
     if(leaf->items[i]!=NULL){
       printItem(leaf->items[i]);
       std::cout<<std::endl;
