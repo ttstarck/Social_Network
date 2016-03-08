@@ -31,13 +31,13 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
       }
       else{
         addToLeaf(name, profileDataPointer, currentNode, i);
+	if(name=="Victor") std::cout<<"after addingtoLeaf Victor"<<std::endl;
         if(currentNode->leaves[i]->itemCount>L){           //if when I add the element to the leaf, I surpass the limit for the number of elements in the leaf
           splitLeaf(currentNode, i);
           if(currentNode->names[M-1]!="no name index"){                //if when I split the leaf I now surpassed the limit to the number of elements in the Node
             splitInternalNode(currentNode);
           }
         }
-        std::cout<<"after break"<<std::endl;
         break;
       }
     }
@@ -51,16 +51,30 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
     currentNode->leaves[leafNodeIndex]= new LeafNode();
   }
   //add to the end of the array
+
   int numItems = currentNode->leaves[leafNodeIndex]->itemCount;
+  if(name=="Victor") std::cout<<numItems<<std::endl;
+  if(name=="Victor") std::cout<<currentNode->leaves[leafNodeIndex]->items[numItems-1]->name<<std::endl;
+  printLeafNode(currentNode->leaves[leafNodeIndex]);
   if(currentNode->leaves[leafNodeIndex]->items[numItems]==NULL){
     currentNode->leaves[leafNodeIndex]->items[numItems]=new ItemNode();
   }
+
+  std::cout<<"it gets here"<<std::endl;
+  //after this it doesn't add in Victor to the new spot at numItems
   currentNode->leaves[leafNodeIndex]->items[numItems]->name=name;
   currentNode->leaves[leafNodeIndex]->items[numItems]->profileDataPointer=profileDataPointer;
+  if(name=="Victor"){ 
+    std::cout<<std::endl<<std::endl; 
+    printLeafNode(currentNode->leaves[leafNodeIndex]);
+    std::cout<<std::endl;}
   currentNode->leaves[leafNodeIndex]->itemCount++;
+
   numItems++;
+
   //if we are at the beginning, sort them
   //if(leafNodeIndex==0){
+
   for(int i=numItems-1; i>=1; i--){
     if(currentNode->leaves[leafNodeIndex]->items[i]->name<currentNode->leaves[leafNodeIndex]->items[i-1]->name){
       ItemNode* temp= new ItemNode();
@@ -73,7 +87,9 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
       delete temp; //does this work for a struct?
       //  }
     }
+
   }
+
 }
 
 void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
@@ -89,9 +105,10 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
     currentNode->leaves[leafIndex]->items[i]=NULL;
     currentNode->leaves[leafIndex]->itemCount--;
     secondLeaf->itemCount++;
+    currentNode->leaves[leafIndex]->itemCount--;
     j++;
   }
-  
+
   //now I insert the second leaf into the internalNode
   //swap all the nodes to make space for the new leafNode
   for(int i=M-1; i>leafIndex; i--){
@@ -107,6 +124,7 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
     currentNode->names[leafIndex-1]=currentNode->leaves[leafIndex]->items[0]->name;
   }
   currentNode->leaves[leafIndex+1]=secondLeaf;
+  printInternalNode(root);
 }
 
 void BTree::splitInternalNode(InternalNode* firstInternalNode){
@@ -224,7 +242,7 @@ void BTree::tests(){
   insertRoot("David", 3);
   insertRoot("Amr", 4);
   insertRoot("Omeed", 5);
-  //insertRoot("Victor",6);
+  insertRoot("Victor",6);
 
   printInternalNode(root);
 }
