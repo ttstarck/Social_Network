@@ -60,18 +60,18 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
   currentNode->leaves[leafNodeIndex]->itemCount++;
   numItems++;
   //if we are at the beginning, sort them
-  if(leafNodeIndex==0){
-    for(int i=numItems-1; i>=1; i--){
-      if(currentNode->leaves[leafNodeIndex]->items[i]->name<currentNode->leaves[leafNodeIndex]->items[i-1]->name){
-	ItemNode* temp= new ItemNode();
-	temp->name=currentNode->leaves[leafNodeIndex]->items[i]->name;
-	temp->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer;
-	currentNode->leaves[leafNodeIndex]->items[i]->name=currentNode->leaves[leafNodeIndex]->items[i-1]->name;
-	currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer;
-	currentNode->leaves[leafNodeIndex]->items[i-1]->name=temp->name;
-	currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer=temp->profileDataPointer;
-	delete temp; //does this work for a struct?
-      }
+  //if(leafNodeIndex==0){
+  for(int i=numItems-1; i>=1; i--){
+    if(currentNode->leaves[leafNodeIndex]->items[i]->name<currentNode->leaves[leafNodeIndex]->items[i-1]->name){
+      ItemNode* temp= new ItemNode();
+      temp->name=currentNode->leaves[leafNodeIndex]->items[i]->name;
+      temp->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer;
+      currentNode->leaves[leafNodeIndex]->items[i]->name=currentNode->leaves[leafNodeIndex]->items[i-1]->name;
+      currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer;
+      currentNode->leaves[leafNodeIndex]->items[i-1]->name=temp->name;
+      currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer=temp->profileDataPointer;
+      delete temp; //does this work for a struct?
+      //  }
     }
   }
 }
@@ -106,7 +106,7 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
   if(leafIndex-1>=0){
     currentNode->names[leafIndex-1]=currentNode->leaves[leafIndex]->items[0]->name;
   }
-    currentNode->leaves[leafIndex+1]=secondLeaf;
+  currentNode->leaves[leafIndex+1]=secondLeaf;
 }
 
 void BTree::splitInternalNode(InternalNode* firstInternalNode){
@@ -223,5 +223,8 @@ void BTree::tests(){
   insertRoot("Tristan",2);
   insertRoot("David", 3);
   insertRoot("Amr", 4);
+  insertRoot("Omeed", 5);
+  //insertRoot("Victor",6);
+
   printInternalNode(root);
 }
