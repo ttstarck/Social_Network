@@ -25,13 +25,12 @@ int BTree::insertRoot(std::string name, int profileDataPointer){
 int BTree::insert(std::string name, int profileDataPointer, InternalNode* currentNode){
   //look through all the names and find the spot
   for(int i=0; i<M; i++){
-    if((currentNode->names[i]=="no name index")||(currentNode->names[i]!="no name index" &&name<currentNode->names[i])||(name>=currentNode->names[i]&&i==M-1)){
+    if((currentNode->names[i]=="no name index")||(currentNode->names[i]!="no name index" &&name<currentNode->names[i])||(name>=currentNode->names[i]&&i == M-1)){
       if(currentNode->leaves==NULL){
         insert(name, profileDataPointer, currentNode->nextNodes[i]);           //if there is another layer of nodes, go to the next layer
       }
       else{
         addToLeaf(name, profileDataPointer, currentNode, i);
-	if(name=="Victor") std::cout<<"after addingtoLeaf Victor"<<std::endl;
         if(currentNode->leaves[i]->itemCount>L){           //if when I add the element to the leaf, I surpass the limit for the number of elements in the leaf
           splitLeaf(currentNode, i);
           if(currentNode->names[M-1]!="no name index"){                //if when I split the leaf I now surpassed the limit to the number of elements in the Node
@@ -47,42 +46,23 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
   
 
 void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex){
-  if(currentNode->leaves[leafNodeIndex]==NULL){
-    currentNode->leaves[leafNodeIndex]= new LeafNode();
+  if(currentNode->leaves[leafNodeIndex] == NULL){
+    currentNode->leaves[leafNodeIndex] = new LeafNode();
   }
   //add to the end of the array
-
   int numItems = currentNode->leaves[leafNodeIndex]->itemCount;
-  if(name=="Victor") std::cout<<numItems<<std::endl;
-  if(name=="Victor") std::cout<<currentNode->leaves[leafNodeIndex]->items[numItems-1]->name<<std::endl;
-  printLeafNode(currentNode->leaves[leafNodeIndex]);
-  if(currentNode->leaves[leafNodeIndex]->items[numItems]==NULL){
-    currentNode->leaves[leafNodeIndex]->items[numItems]=new ItemNode();
-  }
-  std::cout<<numItems<<std::endl;
-  //after this it doesn't add in Victor to the new spot at numItems
-  if(currentNode->leaves[leafNodeIndex]->items[numItems]!=NULL)
-    std::cout<<"made new item node"<<std::endl;
-  printItem(currentNode->leaves[leafNodeIndex]->items[numItems]);
-  if(name=="Victor") printItem(currentNode->leaves[leafNodeIndex]->items[numItems-1]);
-
-  if(name!="Victor")
-    currentNode->leaves[leafNodeIndex]->items[numItems]->name=name;
-
+ 
+  currentNode->leaves[leafNodeIndex]->items[numItems]->name=name;
   currentNode->leaves[leafNodeIndex]->items[numItems]->profileDataPointer=profileDataPointer;
-  if(name=="Victor"){ 
-    std::cout<<std::endl<<std::endl; 
-    printLeafNode(currentNode->leaves[leafNodeIndex]);
-    std::cout<<std::endl;}
   currentNode->leaves[leafNodeIndex]->itemCount++;
 
   numItems++;
 
   //if we are at the beginning, sort them
   //if(leafNodeIndex==0){
-
   for(int i=numItems-1; i>=1; i--){
-    if(currentNode->leaves[leafNodeIndex]->items[i]->name<currentNode->leaves[leafNodeIndex]->items[i-1]->name){
+    if(currentNode->leaves[leafNodeIndex]->items[i]->name < currentNode->leaves[leafNodeIndex]->items[i-1]->name){
+
       ItemNode* temp= new ItemNode();
       temp->name=currentNode->leaves[leafNodeIndex]->items[i]->name;
       temp->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer;
@@ -95,26 +75,24 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
     }
 
   }
-
+  //printLeafNode(currentNode->leaves[leafNodeIndex]);
 }
 
 void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
   LeafNode* secondLeaf = new LeafNode();
   secondLeaf->itemCount=0;
-  secondLeaf->items=new ItemNode*[L];
   
   //find the middle of the array of items of the firstLeaf
   int middle =L/2+1;
   int j=0;
   for(int i=middle; i<L+1; i++){
     secondLeaf->items[j]=currentNode->leaves[leafIndex]->items[i];
-    currentNode->leaves[leafIndex]->items[i]=NULL;
+    currentNode->leaves[leafIndex]->items[i]=new ItemNode();
     currentNode->leaves[leafIndex]->itemCount--;
     secondLeaf->itemCount++;
-    currentNode->leaves[leafIndex]->itemCount--;
     j++;
   }
-
+  currentNode->leaves[leafIndex]->itemCount=L/2+1;
   //now I insert the second leaf into the internalNode
   //swap all the nodes to make space for the new leafNode
   for(int i=M-1; i>leafIndex; i--){
@@ -130,7 +108,7 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
     currentNode->names[leafIndex-1]=currentNode->leaves[leafIndex]->items[0]->name;
   }
   currentNode->leaves[leafIndex+1]=secondLeaf;
-  printInternalNode(root);
+  if(secondLeaf->items[0]->name=="Jane") printInternalNode(currentNode);
 }
 
 void BTree::splitInternalNode(InternalNode* firstInternalNode){
@@ -146,7 +124,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   int namesIndex;
   for(int i=M/2+1 ;i<M+1; i++){
     namesIndex=i-1;
-    if(i!=M)                                                                    //so it doesn't try to reference the 6th element of the names array
+    if(i!=M)//so it doesn't try to reference the 6th element of the names array
       secondInternalNode->names[secondIndex]= firstInternalNode->names[i];
     if(firstInternalNode->leaves!=NULL){
       secondInternalNode->leaves[secondIndex]=firstInternalNode->leaves[i];
@@ -202,7 +180,7 @@ void BTree::printItem(ItemNode* item){
 }
 
 void BTree::printLeafNode(LeafNode* leaf){
-  for(int i=0; i<L; i++){
+  for(int i=0; i<L+1; i++){
     if(leaf->items[i]!=NULL){
       printItem(leaf->items[i]);
       std::cout<<std::endl;
@@ -247,8 +225,15 @@ void BTree::tests(){
   insertRoot("Tristan",2);
   insertRoot("David", 3);
   insertRoot("Amr", 4);
-  insertRoot("Omeed", 5);
+  insertRoot("Omid", 5);
   insertRoot("Victor",6);
+  insertRoot("Lauren",7);
+  insertRoot("Danny", 8);
+  insertRoot("Chris", 9);
+  insertRoot("Nicole", 10);
+  insertRoot("Thomas", 11);
+  insertRoot("John", 12);
+  insertRoot("Jane", 13);
 
   printInternalNode(root);
 }

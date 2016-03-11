@@ -34,8 +34,8 @@ class BTree{
     int itemCount;
     LeafNode(){
       items = new ItemNode*[L+1];
-      for(int i = 0; i < L+2; i++){
-        items[i] = NULL;
+      for(int i = 0; i < L+1; i++){
+        items[i] = new ItemNode();
       }
       itemCount = 0;
     }
