@@ -85,9 +85,11 @@ int main(){
       }
       cout << node->name << endl;
       */
+      cout << "Inserting: " << name << endl;
       f->insert(name, age, occupation, numInserted);
       h->insert(name, numInserted, friendHead);
       b->insertRoot(name,numInserted);
+      b->printBTree();
       numInserted++;
       // Insert into Hashtable, BTree, and ProfileData
     }
@@ -132,7 +134,8 @@ int main(){
       }
       else if(str.compare("printAll") == 0)
       {
-        printSocialNetwork(h,f,numInserted);
+	b->printBTree();
+        //printSocialNetwork(h,f,numInserted);
       }
       else
       {

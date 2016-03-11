@@ -19,6 +19,8 @@ class BTree{
 
   void tests();
 
+  void printBTree();
+
   private:
 
   struct ItemNode{
