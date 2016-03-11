@@ -61,8 +61,14 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
   }
   std::cout<<numItems<<std::endl;
   //after this it doesn't add in Victor to the new spot at numItems
+  if(currentNode->leaves[leafNodeIndex]->items[numItems]!=NULL)
+    std::cout<<"made new item node"<<std::endl;
   printItem(currentNode->leaves[leafNodeIndex]->items[numItems]);
-  if(name!="Victor") currentNode->leaves[leafNodeIndex]->items[numItems]->name=name;
+  if(name=="Victor") printItem(currentNode->leaves[leafNodeIndex]->items[numItems-1]);
+
+  if(name!="Victor")
+    currentNode->leaves[leafNodeIndex]->items[numItems]->name=name;
+
   currentNode->leaves[leafNodeIndex]->items[numItems]->profileDataPointer=profileDataPointer;
   if(name=="Victor"){ 
     std::cout<<std::endl<<std::endl; 
