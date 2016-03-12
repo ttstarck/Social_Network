@@ -175,7 +175,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   }
   else{
   //else go into the parent and insert the secondInternalNode
-    for(int i=M-1; i>1; i--){
+    /*for(int i=M-1; i>1; i--){
       
      
       
@@ -190,6 +190,19 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
       firstInternalNode->parent->nextNodes[i+1] = firstInternalNode->parent->nextNodes[i];
       firstInternalNode->parent->names[i] = firstInternalNode->parent->names[i-1]; 
     }
+    */
+    int i = M-1;
+    while(firstInternalNode->parent->nextNodes[i] != firstInternalNode){
+      firstInternalNode->parent->nextNodes[i+1] = firstInternalNode->parent->nextNodes[i];
+      firstInternalNode->parent->names[i] = firstInternalNode->parent->names[i-1];
+      i--;
+    }
+    //firstInternalNode->parent->names[i] = firstInternalNode->parent->names[i-1];
+    //firstInternalNode->parent->nextNodes[i+1] = firstInternalNode->parent->nextNodes[i];
+    firstInternalNode->parent->nextNodes[i+1]=secondInternalNode;
+    secondInternalNode->parent=firstInternalNode->parent;
+    firstInternalNode->parent->names[i]=getNameIndex(secondInternalNode);
+    
   }
     
   //if the parent doesn't pass the M invariant then call splitInternalNode again
@@ -269,6 +282,27 @@ void BTree::tests(){
   insertRoot("Thomas", 11);
   insertRoot("John", 12);
   insertRoot("Jane", 13);
+  insertRoot("Kathy", 14);
+  insertRoot("Katherine", 15);
+  insertRoot("Tim", 16);
+  insertRoot("Tyler", 17);
+  insertRoot("Travis", 18);
+  insertRoot("Robert", 19);
+  insertRoot("Steven", 20);
+  insertRoot("Sam", 21);
+  insertRoot("Scott", 22);
+  insertRoot("Patricia", 23);
+  insertRoot("Pamela", 24);
+  insertRoot("Phoebe", 25);
+
+  insertRoot("Abby", 26);
+  insertRoot("Bailey", 27);
+  insertRoot("Cam", 28);
+  insertRoot("Dakota", 29);
+  insertRoot("Abigail", 30);
+  insertRoot("Achilles", 31);
+  
+  
 
   printInternalNode(root);
 }
