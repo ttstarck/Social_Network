@@ -129,7 +129,6 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
   }
   currentNode->leaves[leafIndex+1]=secondLeaf;
   //if(currentNode != NULL && currentNode->leaves != NULL && currentNode->leaves[2]->items[1] != NULL && currentNode->leaves[2]->items[1]->name == "Piper")
-  printInternalNode(currentNode);
 }
 
 void BTree::splitInternalNode(InternalNode* firstInternalNode){
@@ -159,6 +158,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
     else{
       secondInternalNode->nextNodes[secondIndex]=firstInternalNode->nextNodes[i];
       firstInternalNode->nextNodes[i]=NULL;
+      secondInternalNode->nextNodes[secondIndex]->parent=secondInternalNode;
     }
     secondIndex++;
   }
@@ -177,6 +177,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
     root=newRoot;
   }
   else{
+    
   //else go into the parent and insert the secondInternalNode
     /*for(int i=M-1; i>1; i--){
       
@@ -194,6 +195,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
       firstInternalNode->parent->names[i] = firstInternalNode->parent->names[i-1]; 
     }
     */
+    printInternalNode(firstInternalNode->parent);
     int i = M-1;
     while(firstInternalNode->parent->nextNodes[i] != firstInternalNode){
       firstInternalNode->parent->nextNodes[i+1] = firstInternalNode->parent->nextNodes[i];
