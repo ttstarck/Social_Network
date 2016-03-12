@@ -24,10 +24,10 @@ int BTree::insertRoot(std::string name, int profileDataPointer){
 
 int BTree::insert(std::string name, int profileDataPointer, InternalNode* currentNode){
   //look through all the names and find the spot
-  for(int i=0; i<M; i++){
+  int i;
+  /*for(i=0; i<M; i++){
     if((currentNode->names[i]=="no name index")||(name < currentNode->names[i])||(name>=currentNode->names[i]&&i == M-1)){
       if(currentNode->leaves==NULL){
-	std::cout << "Inserting Adam" << std::endl;
         insert(name, profileDataPointer, currentNode->nextNodes[i]);           //if there is another layer of nodes, go to the next layer
       }
       else{
@@ -38,10 +38,29 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
           if(currentNode->names[M-1]!="no name index"){//if when I split the leaf I now surpassed the limit to the number of elements in the Node
             splitInternalNode(currentNode);
           }
-        }
-        break;
+        } 
+      }
+      break;
+    }
+    }
+  */
+  for(i = 0; i < M; i++){
+     if((currentNode->names[i]=="no name index")||(name < currentNode->names[i])||(name>=currentNode->names[i]&&i == M-1))
+       break;
+  }
+  if(currentNode->leaves==NULL){
+        insert(name, profileDataPointer, currentNode->nextNodes[i]);           //if there is another layer of nodes, go to the next layer
+      }
+  else{
+    //printInternalNode(currentNode);
+    addToLeaf(name, profileDataPointer, currentNode, i);
+    if(currentNode->leaves[i]->itemCount>L){//if when I add the element to the leaf, I surpass the limit for the number of elements in the leaf
+      splitLeaf(currentNode, i);
+      if(currentNode->names[M-1]!="no name index"){//if when I split the leaf I now surpassed the limit to the number of elements in the Node
+	splitInternalNode(currentNode);
       }
     }
+    
   }
   return 1;
 }
@@ -156,15 +175,20 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   }
   else{
   //else go into the parent and insert the secondInternalNode
-    for(int i=M+1; i>1; i--){
-      if(i!=M+1)
-	firstInternalNode->parent->nextNodes[i+1]=firstInternalNode->parent->nextNodes[i];
+    for(int i=M-1; i>1; i--){
+      
+     
+      
       if(firstInternalNode->parent->nextNodes[i-1]==firstInternalNode){
+	firstInternalNode->parent->nextNodes[i+1] = firstInternalNode->parent->nextNodes[i];
 	firstInternalNode->parent->nextNodes[i]=secondInternalNode;
 	secondInternalNode->parent=firstInternalNode->parent;
 	firstInternalNode->parent->names[i-1]=getNameIndex(secondInternalNode);
 	break;
       }
+      
+      firstInternalNode->parent->nextNodes[i+1] = firstInternalNode->parent->nextNodes[i];
+      firstInternalNode->parent->names[i] = firstInternalNode->parent->names[i-1]; 
     }
   }
     
