@@ -235,7 +235,7 @@ void BTree::printLeafNode(LeafNode* leaf){
 void BTree::printInternalNode(InternalNode* internalNode){
   //print nameIndexes
   std::string nameString="";
-  for(int i=0; i<M; i++){
+  for(int i=0; i<M-1; i++){
     nameString+=internalNode->names[i]+" ";
   }
   std::cout<<nameString<<std::endl;
@@ -302,7 +302,22 @@ void BTree::tests(){
   insertRoot("Abigail", 30);
   insertRoot("Achilles", 31);
   
+  insertRoot("Olivia", 32);
+
+  insertRoot("Amelia", 34);
+  insertRoot("Levi", 35);
+  insertRoot("Milo", 36);
+  insertRoot("Astrid", 37);
+  insertRoot("Penelope", 38);
   
 
+  insertRoot("Ezra", 33);
+  insertRoot("Jack", 39);
+  insertRoot("Ethan", 40);
+  insertRoot("Jasper", 41);
+  insertRoot("Isabella", 42);
+  insertRoot("Elijah", 43);
+  insertRoot("Emma", 44);
+  insertRoot("Hazel", 45);
   printInternalNode(root);
 }
