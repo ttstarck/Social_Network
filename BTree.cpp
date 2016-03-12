@@ -108,7 +108,6 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
   for(int i=middle; i<L+1; i++){
     secondLeaf->items[j]=currentNode->leaves[leafIndex]->items[i];
     currentNode->leaves[leafIndex]->items[i]=new ItemNode();
-    currentNode->leaves[leafIndex]->itemCount--;
     secondLeaf->itemCount++;
     j++;
   }
@@ -119,9 +118,12 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
     currentNode->names[i]=currentNode->names[i-1];
     currentNode->leaves[i+1]=currentNode->leaves[i];
   }
+  if(currentNode->leaves[0]->items != NULL)
+      std::cout << "Items is NOT NULL\n";
   //swap the last for the names
-  currentNode->names[leafIndex+1]=currentNode->names[leafIndex];
-  
+  //currentNode->names[leafIndex+1]=currentNode->names[leafIndex];
+  if(currentNode->leaves[0]->items != NULL)
+      std::cout << "Items is NOT NULL\n";
   //insert the secondLeaf
   currentNode->names[leafIndex]=secondLeaf->items[0]->name;
   if(leafIndex-1>=0){
@@ -133,6 +135,7 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
 
 void BTree::splitInternalNode(InternalNode* firstInternalNode){
   //split into the firstInternalNode and secondInternalNode
+  //if(firstInternalNode->leaves[0]->items != NULL) std::cout<< "Leaves is NOT NULL\n";  
   InternalNode* secondInternalNode;
   if(firstInternalNode->leaves==NULL){
     secondInternalNode = new InternalNode(false);
@@ -162,7 +165,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   }
   
   firstInternalNode->names[M/2]="no name index";
-  if(firstInternalNode->leaves[0]->items != NULL) std::cout<< "Leaves is NOT NULL\n";  
+  //if(firstInternalNode->leaves[0] != NULL) std::cout<< "Leaves is NOT NULL\n";  
   //if the node is the root then make a new root
   if(firstInternalNode==root){
     std::cout<<"adding a new root"<<std::endl;
