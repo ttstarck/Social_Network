@@ -118,19 +118,17 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
     currentNode->names[i]=currentNode->names[i-1];
     currentNode->leaves[i+1]=currentNode->leaves[i];
   }
-  if(currentNode->leaves[0]->items != NULL)
-      std::cout << "Items is NOT NULL\n";
   //swap the last for the names
   //currentNode->names[leafIndex+1]=currentNode->names[leafIndex];
-  if(currentNode->leaves[0]->items != NULL)
-      std::cout << "Items is NOT NULL\n";
+
   //insert the secondLeaf
   currentNode->names[leafIndex]=secondLeaf->items[0]->name;
   if(leafIndex-1>=0){
     currentNode->names[leafIndex-1]=currentNode->leaves[leafIndex]->items[0]->name;
   }
   currentNode->leaves[leafIndex+1]=secondLeaf;
-
+  //if(currentNode != NULL && currentNode->leaves != NULL && currentNode->leaves[2]->items[1] != NULL && currentNode->leaves[2]->items[1]->name == "Piper")
+  printInternalNode(currentNode);
 }
 
 void BTree::splitInternalNode(InternalNode* firstInternalNode){
