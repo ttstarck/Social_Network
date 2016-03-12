@@ -106,6 +106,7 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
   int middle =L/2+1;
   int j=0;
   for(int i=middle; i<L+1; i++){
+    delete secondLeaf->items[j];
     secondLeaf->items[j]=currentNode->leaves[leafIndex]->items[i];
     currentNode->leaves[leafIndex]->items[i]=new ItemNode();
     secondLeaf->itemCount++;
