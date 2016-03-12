@@ -162,7 +162,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   }
   
   firstInternalNode->names[M/2]="no name index";
-  if(firstInternalNode->leaves[0] != NULL) std::cout<< "Leaves is NULL\n";  
+  if(firstInternalNode->leaves[0]->items != NULL) std::cout<< "Leaves is NOT NULL\n";  
   //if the node is the root then make a new root
   if(firstInternalNode==root){
     std::cout<<"adding a new root"<<std::endl;
