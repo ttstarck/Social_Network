@@ -149,7 +149,6 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
     if(i < M){ //so we don't try adding names[5]
       secondInternalNode->names[secondIndex] = firstInternalNode->names[i];
       firstInternalNode->names[i]="no name index";
-      std::cout << firstInternalNode->names[3]  << std::endl;
     }
     if(firstInternalNode->leaves != NULL){
       secondInternalNode->leaves[secondIndex] = firstInternalNode->leaves[i];
@@ -163,7 +162,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   }
   
   firstInternalNode->names[M/2]="no name index";
-  if(firstInternalNode->leaves[2]->items[1]->name =="Joseph") printInternalNode(secondInternalNode);  
+  if(secondInternalNode->leaves[0]->items[0]->name =="Hunter") printInternalNode(secondInternalNode);  
   //if the node is the root then make a new root
   if(firstInternalNode==root){
     std::cout<<"adding a new root"<<std::endl;
