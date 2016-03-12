@@ -6,6 +6,8 @@
 #ifndef BTREE_H
 #define BTREE_H
 
+#include "FSeeker.h"
+
 #include <string>
 #include <iostream>
 
@@ -20,6 +22,8 @@ class BTree{
   void tests();
 
   void printBTree();
+
+  void getRange(std::string name1, std::string name2, FSeeker* f);
 
   private:
 
@@ -94,7 +98,8 @@ class BTree{
 
   void printInternalNode(InternalNode* internalNode);
 
-
+  void getRange(std::string name1, std::string name2, InternalNode* node, FSeeker* f);
+  
 };
 
 #endif //BTREE_H

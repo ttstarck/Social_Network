@@ -4,6 +4,7 @@
 //
 
 #include "BTree.h"
+#include "FSeeker.h"
 
 #include <iostream>
 #include <cstring>
@@ -167,7 +168,6 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   //if(firstInternalNode->leaves[0] != NULL) std::cout<< "Leaves is NOT NULL\n";  
   //if the node is the root then make a new root
   if(firstInternalNode==root){
-    std::cout<<"adding a new root"<<std::endl;
     InternalNode* newRoot = new InternalNode(false);
     newRoot->names[0]=getNameIndex(secondInternalNode);
     newRoot->nextNodes[0]=firstInternalNode;
@@ -195,7 +195,6 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
       firstInternalNode->parent->names[i] = firstInternalNode->parent->names[i-1]; 
     }
     */
-    printInternalNode(firstInternalNode->parent);
     int i = M-1;
     while(firstInternalNode->parent->nextNodes[i] != firstInternalNode){
       firstInternalNode->parent->nextNodes[i+1] = firstInternalNode->parent->nextNodes[i];
@@ -257,6 +256,36 @@ void BTree::printInternalNode(InternalNode* internalNode){
 
 void BTree::printBTree(){
   printInternalNode(root);
+}
+
+void BTree::getRange(std::string name1, std::string name2, FSeeker* f){
+  getRange(name1, name2, root, f);
+}
+
+void BTree::getRange(std::string name1, std::string name2, InternalNode* node, FSeeker* f){
+  if(node != NULL){
+    if(node->leaves!=NULL){
+      for(int i = 0; i < M; i++){
+	if((i == M-1) ||((name1 <= node->names[i]) && (name2 >=node->names[i]))){
+	  for(int j = 0; j < L; j++){
+	    if((name1 <= node->leaves[i]->items[j]->name) && (name2 >=node->leaves[i]->items[j]->name)){
+	      std::cout<<node->leaves[i]->items[j]->name<< " "<< f->getOccupation(node->leaves[i]->items[j]->profileDataPointer)<< std::endl;
+	    }
+	    else
+	      break;
+	  }
+	}
+	else
+	  break;
+      }
+    }
+    for(int i = 0; i < M; i++){
+      if((i == M-1) || ((name1 <= node->names[i]) && (name2 >=node->names[i])))
+	getRange(name1, name2, node->nextNodes[i], f);
+      else
+	break;
+    }
+  }
 }
 
 void BTree::tests(){
@@ -325,4 +354,5 @@ void BTree::tests(){
   insertRoot("Emma", 44);
   insertRoot("Hazel", 45);
   printInternalNode(root);
+
 }

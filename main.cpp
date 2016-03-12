@@ -89,7 +89,7 @@ int main(){
       f->insert(name, age, occupation, numInserted);
       h->insert(name, numInserted, friendHead);
       b->insertRoot(name,numInserted);
-      b->printBTree();
+      //b->printBTree();
       numInserted++;
       // Insert into Hashtable, BTree, and ProfileData
     }
@@ -119,6 +119,15 @@ int main(){
         b->insertRoot(name,numInserted);
         numInserted++;
       }
+      else if(str.compare("rangeQuery") == 0){
+	string name1;
+	string name2;
+
+	cin >> name1 >> name2;
+
+	b->getRange(name1, name2, f);
+	
+      }
       else if(str.compare("addFriendship") == 0)
       {
         string name1;
@@ -134,8 +143,13 @@ int main(){
       }
       else if(str.compare("printAll") == 0)
       {
+	//b->printBTree();
+        printSocialNetwork(h,f,numInserted);
+      }
+      else if(str.compare("printBTree") == 0)
+      {
 	b->printBTree();
-        //printSocialNetwork(h,f,numInserted);
+
       }
       else
       {
