@@ -9,3 +9,5 @@ TO DO:
 	5. Add info into README.md (T)
 	6. Change name commandline insert to handle spaces.(T)
 	7. Change rangeQuery to print profileData, not just occupation.(K) -completed
+	8. read in input file at the commandline -completed
+	9. read in names/occupations with spaces main
