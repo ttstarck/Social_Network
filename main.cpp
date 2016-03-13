@@ -92,8 +92,9 @@ int main(){
     
     while(true)
       {
-	string str;
-	cin >> str;
+	string str = "";
+	getline(cin, str);
+  //cin >> str;
 	if(cin.eof())
 	  {
 	    break;
@@ -108,57 +109,73 @@ int main(){
 	    string name = "";
 	    string age = "";
 	    string occupation = "";
-     
-	    cin >> name >> age;
+      cout << "Name: ";
+      getline(cin,name);
+      cout << "Age: ";
+	    getline(cin,age);
+      cout << "Occupation: ";
 	    getline(cin, occupation);
-
 	    f->insert(name,age,occupation,numInserted);
 	    h->insert(name, numInserted, NULL);
 	    b->insertRoot(name,numInserted);
 	    numInserted++;
 	  }
 	else if(str.compare("rangeQuery") == 0){
-	  string name1;
-	  string name2;
+	  string name1 = "";
+	  string name2 = "";
 
-	  cin >> name1 >> name2;
-
-	  b->getRange(name1, name2, f);
+	  cout << "First person's name: ";
+    getline(cin, name1);
+    cout << "Second person's name: ";
+    getline(cin, name2);
+	  
+    b->getRange(name1, name2, f);
 	
 	}
 	else if(str.compare("addFriendship") == 0)
 	  {
-	    string name1;
-	    string name2;
-	    cin >> name1 >> name2;
+	    string name1 = "";
+	    string name2 = "";
+	    cout << "First person's name: ";
+      getline(cin, name1);
+      cout << "Second person's name: ";
+      getline(cin, name2);
 	    h->addFriendship(name1, name2);
 	  }
 	else if(str.compare("removeFriendship") == 0)
 	  {
-	    string name1;
-	    string name2;
-	    cin >> name1 >> name2;
+	    string name1 = "";
+	    string name2 = "";
+      cout << "First person's name: ";
+      getline(cin, name1);
+      cout << "Second person's name: ";
+      getline(cin, name2);
 	    h->removeFriendship(name1, name2);
 	  }
 	else if(str.compare("getFriendsProfileData") == 0)
 	  {
-	    string name;
-	    cin >> name;
+	    string name = "";
+      cout << "Name: ";
+	    getline(cin, name);
+
 	    getFriendsProfileData(name, h, f);
 	  }
 	else if(str.compare("printAll") == 0)
 	  {
+      cout << "Printing Social Network" << endl;
 	    printSocialNetwork(h,f,numInserted);
 	  }
 	else if(str.compare("printBTree") == 0)
 	  {
+      cout << "Printing BTree" << endl;
 	    b->printBTree();
 
 	  }
 	else if(str.compare("insertFile") == 0)
           {
-	    std::string fileName;
-	    cin >> fileName;
+	    std::string fileName = "";
+      cout << "File Name: ";
+	    getline(cin, fileName);
 	    ifstream file(fileName);
 
 	    //parse through the input.txt line by line

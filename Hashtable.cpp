@@ -180,11 +180,11 @@ void Hashtable::removeFriendship(std::string name1, std::string name2){
 }
 
 int Hashtable::hashFunction(std::string name, int seed){
-  long hash = 0;
+  int hash = seed;
   for(int i = 0;i < int(name.length());i++){
-    hash = hash * 101 + int(name[i]);
+    hash = (hash * 101 + int(name[i])) % tableSize;
   }
-  return (hash + seed) % 201;
+  return hash;
 }
 
 

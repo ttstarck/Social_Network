@@ -11,7 +11,6 @@
 
 BTree::BTree(){
   root = NULL;
-  numItemsInTree = 0;
 }
 
 int BTree::insertRoot(std::string name, int profileDataPointer){
@@ -36,10 +35,10 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
   }
   else{
     addToLeaf(name, profileDataPointer, currentNode, i);
-    //if when I add the element to the leaf, I surpass the limit for the number of elements in the leaf
+    // After inserting, if the number of items exceeds L, call splitLeaf.
     if(currentNode->leaves[i]->itemCount > L){ 
       splitLeaf(currentNode, i);
-      //if when I split the leaf I now surpassed the limit to the number of elements in the Node
+      // After splitLeaf, if the number of LeafNodes exceeds M, call splitInternalNode.
       if(currentNode->names[M-1] != "no name index"){ 
 	splitInternalNode(currentNode);
       }
@@ -51,19 +50,20 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
   
 
 void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* currentNode, int leafNodeIndex){
+  // Creates new LeafNode there is no current LeafNode where the data is suppose to go.
   if(currentNode->leaves[leafNodeIndex] == NULL){
     currentNode->leaves[leafNodeIndex] = new LeafNode();
   }
-  //add to the end of the array
+  // stores number of items in the LeafNode that will be taking the ItemNode
   int numItems = currentNode->leaves[leafNodeIndex]->itemCount;
  
+  // Adds ItemNode to end of array of items.
   currentNode->leaves[leafNodeIndex]->items[numItems]->name = name;
   currentNode->leaves[leafNodeIndex]->items[numItems]->profileDataPointer = profileDataPointer;
   currentNode->leaves[leafNodeIndex]->itemCount++;
-
   numItems++;
 
-  //if we are at the beginning, sort them
+  // Sorts ItemNodes alphabetically.
   for(int i = numItems-1; i >= 1; i--){
     if(currentNode->leaves[leafNodeIndex]->items[i]->name < currentNode->leaves[leafNodeIndex]->items[i-1]->name){
       ItemNode* temp = new ItemNode();
@@ -74,9 +74,7 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
       currentNode->leaves[leafNodeIndex]->items[i-1]->name = temp->name;
       currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer = temp->profileDataPointer;
       delete temp;
-      //  }
     }
-
   }
 }
 
@@ -86,23 +84,25 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
   //find the middle of the array of items of the firstLeaf
   int middle = L/2+1;
   int j = 0;
+
+  // Moves second half of full leaf into secondLeaf.
   for(int i = middle; i < L+1; i++){
+    // Deletes empty items that were initialized by the LeafNode constructor.
     delete secondLeaf->items[j];
     secondLeaf->items[j] = currentNode->leaves[leafIndex]->items[i];
     currentNode->leaves[leafIndex]->items[i] = new ItemNode();
     secondLeaf->itemCount++;
+    currentNode->leaves[leafIndex]->itemCount--;
     j++;
   }
-  currentNode->leaves[leafIndex]->itemCount = L/2+1;
   
-  //now I insert the second leaf into the internalNode
-  //swap all the nodes to make space for the new leafNode
+  // Moves all leaves after the previously full leaf over one to make room for secondLeaf.
   for(int i=M-1; i>leafIndex; i--){
     currentNode->names[i] = currentNode->names[i-1];
     currentNode->leaves[i+1] = currentNode->leaves[i];
   }
   
-  //insert the secondLeaf
+  // Insert the secondLeaf after the previously full leaf.
   currentNode->names[leafIndex] = secondLeaf->items[0]->name;
   if(leafIndex-1>=0){
     currentNode->names[leafIndex-1] = currentNode->leaves[leafIndex]->items[0]->name;
@@ -111,7 +111,8 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
 }
 
 void BTree::splitInternalNode(InternalNode* firstInternalNode){
-  //split into the firstInternalNode and secondInternalNode
+  // Creates a new InternalNode that will either point to leaves or more InternalNodes
+  // depending if firstInternalNode does or not.
   InternalNode* secondInternalNode;
   if(firstInternalNode->leaves == NULL){
     secondInternalNode = new InternalNode(false);
@@ -120,7 +121,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
     secondInternalNode = new InternalNode(true);
   }
 
-  //move the second half of the firstInternalNode to the first half of the secondinternalNode
+  // Move the second half of the firstInternalNode to the first half of the secondinternalNode
   int secondIndex = 0;
   for(int i = M/2+1 ;i < M+1; i++){
     if(i < M){
@@ -141,7 +142,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   
   firstInternalNode->names[M/2] = "no name index";
   
-  //if the node is the root then make a new root
+  // If the node is the root then make a new root
   if(firstInternalNode == root){
     InternalNode* newRoot = new InternalNode(false);
     newRoot->names[0] = getNameIndex(secondInternalNode);
@@ -151,7 +152,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
     secondInternalNode->parent = newRoot;
     root = newRoot;
   }
-  //else add it to the end of the firstInternalNode's parent
+  // Else add it to the end of the firstInternalNode's parent
   else{
     int i = M-1;
     while(firstInternalNode->parent->nextNodes[i] != firstInternalNode){
@@ -172,6 +173,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
 
 
 std::string BTree::getNameIndex(InternalNode* nameNode){
+  // If not  at leaves level, get traversing down BTree.
   while(nameNode->leaves == NULL){
     nameNode = nameNode->nextNodes[0];
   }
@@ -219,6 +221,7 @@ void BTree::getRange(std::string name1, std::string name2, FSeeker* f){
 
 void BTree::getRange(std::string name1, std::string name2, InternalNode* node, FSeeker* f){
   if(node != NULL){
+    // If at leaves level, print out profileData of people in items who's names are inbetween name1 and name2.
     if(node->leaves != NULL){
       for(int i = 0; i < M; i++){
 	if((i == 0 && name1 < node->names[i]) || (i > 0 && node->names[i] != "no name index" && name1 < node->names[i] && name2 >= node->names[i-1]) || (i > 0 && node->names[i] == "no name index" && name2 >= node->names[i-1])){
@@ -228,15 +231,16 @@ void BTree::getRange(std::string name1, std::string name2, InternalNode* node, F
 	    }
 	  }
 	}
-        if(node->names[i] == "no name index")
+
+        if(node->names[i] == "no name index") // Break if no more leaves contain items.
 	  break;
       }
     }
-    else{
+    else{ // Else, recursively call getRange on all internalNodes that could contain items that are inbetween name1 and name2.
       for(int i = 0; i < M; i++){
 	if((i == 0 && name1 < node->names[i]) || (i > 0 && node->names[i] != "no name index" && name1 < node->names[i] && name2 >= node->names[i-1]) || (i > 0 && node->names[i] == "no name index" && name2 >= node->names[i-1])){
 	  getRange(name1, name2, node->nextNodes[i], f);
-	  if(node->names[i] == "no name index")
+	  if(node->names[i] == "no name index") // Break if no more InternalNodes pointers.
 	    break;
 	}
       }
@@ -245,20 +249,6 @@ void BTree::getRange(std::string name1, std::string name2, InternalNode* node, F
 }
 
 void BTree::tests(){
-  /* LeafNode* leafTest = new LeafNode();
-     leafTest->items[0]=new ItemNode();
-     leafTest->items[1]=new ItemNode();
-     leafTest->items[2]=new ItemNode();
-     leafTest->items[3]=new ItemNode();
-     leafTest->items[0]->name="Kelly";
-     leafTest->items[0]->profileDataPointer=1;
-
-     InternalNode* internalTest= new InternalNode(true);
-
-     internalTest->names[0]="Kelly";
-     internalTest->leaves[0]=leafTest;
-     printInternalNode(internalTest);*/
-
   insertRoot("Kelly", 1);
   insertRoot("Tristan",2);
   insertRoot("David", 3);
