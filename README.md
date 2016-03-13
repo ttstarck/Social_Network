@@ -2,10 +2,10 @@
 Social network application, final project for CS130A
 
 TO DO:
-	1. DONE(GetFriendsINFO) 
-	2. Implement BTREE
-	3. DONE(Change main to commandline prompts (Take from project 1))
-	4. DONE(AddFriendShip in Hashtable)
-	5. DONE(PrintAll)
-	6. DONE(Insert new user)
-	7. Range Query 
+	1. Comment/Clean Up main.cpp(K)
+	2. Comment FSeeker.cpp(T)
+	3. Comment BTree.cpp and BTree.h(T)
+	4. Comment Nodes.(K)
+	5. Add info into README.md (T)
+	6. Change name commandline insert to handle spaces.(T)
+	7. Change rangeQuery to print profileData, not just occupation.(K)
