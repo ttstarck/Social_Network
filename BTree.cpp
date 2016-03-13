@@ -227,7 +227,7 @@ void BTree::getRange(std::string name1, std::string name2, InternalNode* node, F
 	if((i == 0 && name1 < node->names[i]) || (i > 0 && node->names[i] != "no name index" && name1 < node->names[i] && name2 >= node->names[i-1]) || (i > 0 && node->names[i] == "no name index" && name2 >= node->names[i-1])){
 	  for(int j = 0; j < L; j++){
 	    if((name1 <= node->leaves[i]->items[j]->name) && (name2 >=node->leaves[i]->items[j]->name)){
-	      std::cout << node->leaves[i]->items[j]->name << " " << f->getAge(node->leaves[i]->items[j]->profileDataPointer) << " " << f->getOccupation(node->leaves[i]->items[j]->profileDataPointer)<< std::endl;
+	      std::cout << f->getProfileData(node->leaves[i]->items[j]->profileDataPointer) << std::endl;
 	    }
 	  }
 	}
