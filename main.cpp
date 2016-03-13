@@ -108,11 +108,34 @@ int main(){
       }
       else if(str.compare("insert") == 0)
       {
-        string name;
-        string age;
-        string occupation;
+        string profile = "";
+        string name = "";
+        string age = "";
+        string occupation = "";
         
-        cin >> name >> age >> occupation;
+        //getline(cin, profile);
+
+        /*size_t i = 0;
+        int counter = 0;
+        while(i < profile.size()){
+          if(profile[i] == ' '){
+            counter ++;
+            i++;
+            if(i == profile.size())
+              break;
+          }
+          if(counter == 0)
+            name += profile[i];
+          else if(counter == 1)
+            age += profile[i];
+          else
+            occupation += profile[i];
+        }
+        */
+
+
+        cin >> name >> age;// >> occupation;
+        getline(cin, occupation);
 
         f->insert(name,age,occupation,numInserted);
         h->insert(name, numInserted, NULL);
