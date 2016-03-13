@@ -158,6 +158,13 @@ int main(){
         cin >> name1 >> name2;
         h->addFriendship(name1, name2);
       }
+      else if(str.compare("removeFriendship") == 0)
+      {
+        string name1;
+        string name2;
+        cin >> name1 >> name2;
+        h->removeFriendship(name1, name2);
+      }
       else if(str.compare("getFriendsProfileData") == 0)
       {
         string name;

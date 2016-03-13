@@ -42,7 +42,6 @@ std::string FSeeker::getProfileData(int profileDataPointer){
   profileData += getName(profileDataPointer);
   profileData += "," + getAge(profileDataPointer);
   profileData += "," + getOccupation(profileDataPointer);
-  //how do we want to return it?
 
   return profileData;
 }

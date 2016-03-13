@@ -11,29 +11,40 @@
 
 class Hashtable{
 public:
-	
-	Hashtable();
+  // Constructor for Hashtable, initializes tableSize to 211.
+  Hashtable();
 
-	~Hashtable();
+  // Destructor for Hashtable.
+  ~Hashtable();
 
-	int insert(std::string name, int profileDataPointer, FriendNode* friendHead);
+  // Inserts person into Hashtable. Returns -1 if the table is full or person is already in the Hashtable.
+  int insert(std::string name, int profileDataPointer, FriendNode* friendHead);
 
-	HashNode* lookUp(std::string name);
+  // Finds position of name in the Hashtable. Returns NULL if table is full or person is not found.
+  HashNode* lookUp(std::string name);
 
-	void print();
+  // Prints Hashtable from position 0, to position tableSize-1.
+  void print();
 
-	std::string getFriends(std::string name);
+  // Returns string concatenation of all friends of name.
+  std::string getFriends(std::string name);
 
-	void addFriendship(std::string name1, std::string name2);
+  // Adds friendship between name1 and name2 in the Hashtable.
+  void addFriendship(std::string name1, std::string name2);
 
-private:
+  // Removes friendship between name1 and name2 in the Hashtable.
+  void removeFriendship(std::string name1, std::string name2);
+  
+ private:
+  // Size of table.
+  int tableSize;
 
-	int tableSize;
-	
-	HashNode** table;
+  // Hashtable
+  HashNode** table;
 
-	int hashFunction(std::string name, int seed);
-
+  // Function used to calculate the position of name.
+  int hashFunction(std::string name, int seed);
+  
 };
 
 #endif //HASHTABLE_H
