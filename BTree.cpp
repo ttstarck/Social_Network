@@ -10,14 +10,14 @@
 #include <cstring>
 
 BTree::BTree(){
-  root=NULL;
+  root = NULL;
   numItemsInTree = 0;
 }
 
 int BTree::insertRoot(std::string name, int profileDataPointer){
   //if the root is empty start a new tree
-  if(root==NULL){
-    root= new InternalNode(true);
+  if(root == NULL){
+    root = new InternalNode(true);
   }
   //then add the information to the tree
   return insert(name, profileDataPointer, root);
@@ -27,20 +27,20 @@ int BTree::insert(std::string name, int profileDataPointer, InternalNode* curren
   //look through all the names and find where the name belongs
   int i;
   for(i = 0; i < M; i++){
-    if((currentNode->names[i]=="no name index")||(name < currentNode->names[i])||(name>=currentNode->names[i]&&i == M-1))
+    if((currentNode->names[i] == "no name index")||(name < currentNode->names[i])||(name >= currentNode->names[i]&&i == M-1))
       break;
   }
   //if there is another layer of nodes, go to the next layer
-  if(currentNode->leaves==NULL){
+  if(currentNode->leaves == NULL){
     insert(name, profileDataPointer, currentNode->nextNodes[i]);
   }
   else{
     addToLeaf(name, profileDataPointer, currentNode, i);
     //if when I add the element to the leaf, I surpass the limit for the number of elements in the leaf
-    if(currentNode->leaves[i]->itemCount>L){ 
+    if(currentNode->leaves[i]->itemCount > L){ 
       splitLeaf(currentNode, i);
       //if when I split the leaf I now surpassed the limit to the number of elements in the Node
-      if(currentNode->names[M-1]!="no name index"){ 
+      if(currentNode->names[M-1] != "no name index"){ 
 	splitInternalNode(currentNode);
       }
     }
@@ -57,22 +57,22 @@ void BTree::addToLeaf(std::string name, int profileDataPointer, InternalNode* cu
   //add to the end of the array
   int numItems = currentNode->leaves[leafNodeIndex]->itemCount;
  
-  currentNode->leaves[leafNodeIndex]->items[numItems]->name=name;
-  currentNode->leaves[leafNodeIndex]->items[numItems]->profileDataPointer=profileDataPointer;
+  currentNode->leaves[leafNodeIndex]->items[numItems]->name = name;
+  currentNode->leaves[leafNodeIndex]->items[numItems]->profileDataPointer = profileDataPointer;
   currentNode->leaves[leafNodeIndex]->itemCount++;
 
   numItems++;
 
   //if we are at the beginning, sort them
-  for(int i=numItems-1; i>=1; i--){
+  for(int i = numItems-1; i >= 1; i--){
     if(currentNode->leaves[leafNodeIndex]->items[i]->name < currentNode->leaves[leafNodeIndex]->items[i-1]->name){
-      ItemNode* temp= new ItemNode();
-      temp->name=currentNode->leaves[leafNodeIndex]->items[i]->name;
-      temp->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer;
-      currentNode->leaves[leafNodeIndex]->items[i]->name=currentNode->leaves[leafNodeIndex]->items[i-1]->name;
-      currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer=currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer;
-      currentNode->leaves[leafNodeIndex]->items[i-1]->name=temp->name;
-      currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer=temp->profileDataPointer;
+      ItemNode* temp = new ItemNode();
+      temp->name = currentNode->leaves[leafNodeIndex]->items[i]->name;
+      temp->profileDataPointer = currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer;
+      currentNode->leaves[leafNodeIndex]->items[i]->name = currentNode->leaves[leafNodeIndex]->items[i-1]->name;
+      currentNode->leaves[leafNodeIndex]->items[i]->profileDataPointer = currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer;
+      currentNode->leaves[leafNodeIndex]->items[i-1]->name = temp->name;
+      currentNode->leaves[leafNodeIndex]->items[i-1]->profileDataPointer = temp->profileDataPointer;
       delete temp;
       //  }
     }
@@ -84,36 +84,36 @@ void BTree::splitLeaf(InternalNode* currentNode, int leafIndex){
   LeafNode* secondLeaf = new LeafNode();
   
   //find the middle of the array of items of the firstLeaf
-  int middle =L/2+1;
-  int j=0;
-  for(int i=middle; i<L+1; i++){
+  int middle = L/2+1;
+  int j = 0;
+  for(int i = middle; i < L+1; i++){
     delete secondLeaf->items[j];
-    secondLeaf->items[j]=currentNode->leaves[leafIndex]->items[i];
-    currentNode->leaves[leafIndex]->items[i]=new ItemNode();
+    secondLeaf->items[j] = currentNode->leaves[leafIndex]->items[i];
+    currentNode->leaves[leafIndex]->items[i] = new ItemNode();
     secondLeaf->itemCount++;
     j++;
   }
-  currentNode->leaves[leafIndex]->itemCount=L/2+1;
+  currentNode->leaves[leafIndex]->itemCount = L/2+1;
   
   //now I insert the second leaf into the internalNode
   //swap all the nodes to make space for the new leafNode
   for(int i=M-1; i>leafIndex; i--){
-    currentNode->names[i]=currentNode->names[i-1];
-    currentNode->leaves[i+1]=currentNode->leaves[i];
+    currentNode->names[i] = currentNode->names[i-1];
+    currentNode->leaves[i+1] = currentNode->leaves[i];
   }
   
   //insert the secondLeaf
-  currentNode->names[leafIndex]=secondLeaf->items[0]->name;
+  currentNode->names[leafIndex] = secondLeaf->items[0]->name;
   if(leafIndex-1>=0){
-    currentNode->names[leafIndex-1]=currentNode->leaves[leafIndex]->items[0]->name;
+    currentNode->names[leafIndex-1] = currentNode->leaves[leafIndex]->items[0]->name;
   }
-  currentNode->leaves[leafIndex+1]=secondLeaf;
+  currentNode->leaves[leafIndex+1] = secondLeaf;
 }
 
 void BTree::splitInternalNode(InternalNode* firstInternalNode){
   //split into the firstInternalNode and secondInternalNode
   InternalNode* secondInternalNode;
-  if(firstInternalNode->leaves==NULL){
+  if(firstInternalNode->leaves == NULL){
     secondInternalNode = new InternalNode(false);
   }
   else{
@@ -125,7 +125,7 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
   for(int i = M/2+1 ;i < M+1; i++){
     if(i < M){
       secondInternalNode->names[secondIndex] = firstInternalNode->names[i];
-      firstInternalNode->names[i]="no name index";
+      firstInternalNode->names[i] = "no name index";
     }
     if(firstInternalNode->leaves != NULL){
       secondInternalNode->leaves[secondIndex] = firstInternalNode->leaves[i];
@@ -133,23 +133,23 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
     }
     else{
       secondInternalNode->nextNodes[secondIndex] = firstInternalNode->nextNodes[i];
-      firstInternalNode->nextNodes[i]=NULL;
-      secondInternalNode->nextNodes[secondIndex]->parent=secondInternalNode;
+      firstInternalNode->nextNodes[i] = NULL;
+      secondInternalNode->nextNodes[secondIndex]->parent = secondInternalNode;
     }
     secondIndex++;
   }
   
-  firstInternalNode->names[M/2]="no name index";
+  firstInternalNode->names[M/2] = "no name index";
   
   //if the node is the root then make a new root
-  if(firstInternalNode==root){
+  if(firstInternalNode == root){
     InternalNode* newRoot = new InternalNode(false);
-    newRoot->names[0]=getNameIndex(secondInternalNode);
-    newRoot->nextNodes[0]=firstInternalNode;
-    firstInternalNode->parent=newRoot;
-    newRoot->nextNodes[1]=secondInternalNode;
-    secondInternalNode->parent=newRoot;
-    root=newRoot;
+    newRoot->names[0] = getNameIndex(secondInternalNode);
+    newRoot->nextNodes[0] = firstInternalNode;
+    firstInternalNode->parent = newRoot;
+    newRoot->nextNodes[1] = secondInternalNode;
+    secondInternalNode->parent = newRoot;
+    root = newRoot;
   }
   //else add it to the end of the firstInternalNode's parent
   else{
@@ -159,21 +159,21 @@ void BTree::splitInternalNode(InternalNode* firstInternalNode){
       firstInternalNode->parent->names[i] = firstInternalNode->parent->names[i-1];
       i--;
     }
-    firstInternalNode->parent->nextNodes[i+1]=secondInternalNode;
-    secondInternalNode->parent=firstInternalNode->parent;
-    firstInternalNode->parent->names[i]=getNameIndex(secondInternalNode);
+    firstInternalNode->parent->nextNodes[i+1] = secondInternalNode;
+    secondInternalNode->parent = firstInternalNode->parent;
+    firstInternalNode->parent->names[i] = getNameIndex(secondInternalNode);
     
   }
     
   //if the parent doesn't pass the M invariant then call splitInternalNode again
-  if(firstInternalNode->parent->names[M-1]!="no name index")
+  if(firstInternalNode->parent->names[M-1] != "no name index")
     splitInternalNode(firstInternalNode->parent);
 }
 
 
 std::string BTree::getNameIndex(InternalNode* nameNode){
-  while(nameNode->leaves==NULL){
-    nameNode= nameNode->nextNodes[0];
+  while(nameNode->leaves == NULL){
+    nameNode = nameNode->nextNodes[0];
   }
   return nameNode->leaves[0]->items[0]->name;
 }
@@ -184,27 +184,27 @@ void BTree::printItem(ItemNode* item){
 }
 
 void BTree::printLeafNode(LeafNode* leaf){
-  for(int i=0; i<L+1; i++){
-    if(leaf->items[i]!=NULL){
+  for(int i = 0; i < L+1; i++){
+    if(leaf->items[i] != NULL){
       printItem(leaf->items[i]);
-      std::cout<<std::endl;
+      std::cout << std::endl;
     }
   }
   std::cout<<std::endl;
 }
 void BTree::printInternalNode(InternalNode* internalNode){
   std::string nameString="";
-  for(int i=0; i<M-1; i++){
-    nameString+=internalNode->names[i] + "[" + std::to_string(i) + "]" + " ";
+  for(int i = 0; i < M-1; i++){
+    nameString += internalNode->names[i] + "[" + std::to_string(i) + "]" + " ";
   }
-  std::cout<<nameString<<std::endl;
-  for(int i=0; i<M+1; i++){
-    if(internalNode->leaves!=NULL){
-      if(internalNode->leaves[i]!=NULL)
+  std::cout << nameString << std::endl;
+  for(int i = 0; i < M+1; i++){
+    if(internalNode->leaves != NULL){
+      if(internalNode->leaves[i] != NULL)
 	printLeafNode(internalNode->leaves[i]);
     }
     else
-      if(internalNode->nextNodes[i]!=NULL)
+      if(internalNode->nextNodes[i] != NULL)
 	printInternalNode(internalNode->nextNodes[i]);
   }
 }
@@ -224,7 +224,7 @@ void BTree::getRange(std::string name1, std::string name2, InternalNode* node, F
 	if((i == 0 && name1 < node->names[i]) || (i > 0 && node->names[i] != "no name index" && name1 < node->names[i] && name2 >= node->names[i-1]) || (i > 0 && node->names[i] == "no name index" && name2 >= node->names[i-1])){
 	  for(int j = 0; j < L; j++){
 	    if((name1 <= node->leaves[i]->items[j]->name) && (name2 >=node->leaves[i]->items[j]->name)){
-	      std::cout<<node->leaves[i]->items[j]->name<< " "<< f->getOccupation(node->leaves[i]->items[j]->profileDataPointer)<< std::endl;
+	      std::cout << node->leaves[i]->items[j]->name << " " << f->getAge(node->leaves[i]->items[j]->profileDataPointer) << " " << f->getOccupation(node->leaves[i]->items[j]->profileDataPointer)<< std::endl;
 	    }
 	  }
 	}
