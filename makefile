@@ -13,7 +13,7 @@ tests: SN_Tests.o Hashtable.o FSeeker.o
 	${CXX} $^ -o $@
 run_tests: tests
 	-./tests
-btree: BTree.o BT_Tests.o
+btree: BTree.o BT_Tests.o FSeeker.o
 	${CXX} $^ -o $@
 run_bt: btree
 	-./btree
