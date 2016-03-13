@@ -10,6 +10,7 @@
 
 #include <string>
 
+// class for the nodes of the hash table which contain the name of the person, their profileDataPointer, and a pointer to the linked list of FriendNodes
 class HashNode{
 	public:
 		std::string name;

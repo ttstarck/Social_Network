@@ -24,16 +24,19 @@ int main(){
   try{
     int numInserted = 0;
 
+    // fileName is the document we are adding to
     string fileName = "ProfileData.txt";
     FSeeker* f = new FSeeker(fileName);
 
+    // input.txt are the people that we initially insert into the social network
     ifstream file("input.txt");
     string line;
+
     Hashtable* h = new Hashtable();
     BTree* b = new BTree();
-    
-    while(getline(file,line)){
 
+    //parse through the input.txt line by line    
+    while(getline(file,line)){
       string name = "";
       string occupation = "";
       string age = "";
@@ -45,8 +48,11 @@ int main(){
       FriendNode* fNode = friendHead;
       bool anotherFriend = false;
 
+      //position is to keep track of 
       int position = 0;
       int currentFriend = 0;
+
+      //parse through each person's line in input.txt
       for(size_t i = 0; i < line.length(); i++){
         if(line[i] == '\n')
           break;
@@ -77,116 +83,84 @@ int main(){
           }
         }
       }
-      /*cout << "Profile data for " << name << endl << "Occupation: " << occupation << endl << "Age: " <<  age << endl << "Friends: ";
-      FriendNode* node = friendHead;
-      while(node != NULL && node->nextFriend != NULL){
-        cout << node->name << ",";
-        node = node->nextFriend;
-      }
-      cout << node->name << endl;
-      */
       cout << "Inserting: " << name << endl;
       f->insert(name, age, occupation, numInserted);
       h->insert(name, numInserted, friendHead);
       b->insertRoot(name,numInserted);
-      //b->printBTree();
       numInserted++;
-      // Insert into Hashtable, BTree, and ProfileData
     }
     
     while(true)
-    {
-      string str;
-      cin >> str;
-      if(cin.eof())
       {
-        break;
-      }
-      if(str.compare("exit") == 0)
-      {
-        break;
-      }
-      else if(str.compare("insert") == 0)
-      {
-        string profile = "";
-        string name = "";
-        string age = "";
-        string occupation = "";
-        
-        //getline(cin, profile);
+	string str;
+	cin >> str;
+	if(cin.eof())
+	  {
+	    break;
+	  }
+	if(str.compare("exit") == 0)
+	  {
+	    break;
+	  }
+	else if(str.compare("insert") == 0)
+	  {
+	    string profile = "";
+	    string name = "";
+	    string age = "";
+	    string occupation = "";
+     
+	    cin >> name >> age;
+	    getline(cin, occupation);
 
-        /*size_t i = 0;
-        int counter = 0;
-        while(i < profile.size()){
-          if(profile[i] == ' '){
-            counter ++;
-            i++;
-            if(i == profile.size())
-              break;
-          }
-          if(counter == 0)
-            name += profile[i];
-          else if(counter == 1)
-            age += profile[i];
-          else
-            occupation += profile[i];
-        }
-        */
+	    f->insert(name,age,occupation,numInserted);
+	    h->insert(name, numInserted, NULL);
+	    b->insertRoot(name,numInserted);
+	    numInserted++;
+	  }
+	else if(str.compare("rangeQuery") == 0){
+	  string name1;
+	  string name2;
 
+	  cin >> name1 >> name2;
 
-        cin >> name >> age;// >> occupation;
-        getline(cin, occupation);
-
-        f->insert(name,age,occupation,numInserted);
-        h->insert(name, numInserted, NULL);
-        b->insertRoot(name,numInserted);
-        numInserted++;
-      }
-      else if(str.compare("rangeQuery") == 0){
-	string name1;
-	string name2;
-
-	cin >> name1 >> name2;
-
-	b->getRange(name1, name2, f);
+	  b->getRange(name1, name2, f);
 	
-      }
-      else if(str.compare("addFriendship") == 0)
-      {
-        string name1;
-        string name2;
-        cin >> name1 >> name2;
-        h->addFriendship(name1, name2);
-      }
-      else if(str.compare("removeFriendship") == 0)
-      {
-        string name1;
-        string name2;
-        cin >> name1 >> name2;
-        h->removeFriendship(name1, name2);
-      }
-      else if(str.compare("getFriendsProfileData") == 0)
-      {
-        string name;
-        cin >> name;
-        getFriendsProfileData(name, h, f);
-      }
-      else if(str.compare("printAll") == 0)
-      {
-	//b->printBTree();
-        printSocialNetwork(h,f,numInserted);
-      }
-      else if(str.compare("printBTree") == 0)
-      {
-	b->printBTree();
+	}
+	else if(str.compare("addFriendship") == 0)
+	  {
+	    string name1;
+	    string name2;
+	    cin >> name1 >> name2;
+	    h->addFriendship(name1, name2);
+	  }
+	else if(str.compare("removeFriendship") == 0)
+	  {
+	    string name1;
+	    string name2;
+	    cin >> name1 >> name2;
+	    h->removeFriendship(name1, name2);
+	  }
+	else if(str.compare("getFriendsProfileData") == 0)
+	  {
+	    string name;
+	    cin >> name;
+	    getFriendsProfileData(name, h, f);
+	  }
+	else if(str.compare("printAll") == 0)
+	  {
+	    printSocialNetwork(h,f,numInserted);
+	  }
+	else if(str.compare("printBTree") == 0)
+	  {
+	    b->printBTree();
 
+	  }
+	else
+	  {
+	    cin.clear();
+	    cout << "Inputed string format was incorrect" << endl;
+	  }
       }
-      else
-      {
-        cin.clear();
-        cout << "Inputed string format was incorrect" << endl;
-      }
-    }
 
   }
   catch(exception& ex){
@@ -218,7 +192,6 @@ void getFriendsProfileData(string name,Hashtable* h, FSeeker* f){
 void printSocialNetwork(Hashtable* h, FSeeker* f, int totalUsers){
   for(int i = 0; i < totalUsers; i++){
     string name = f->getName(i);
-    //cout << name << endl;
     cout << f->getProfileData(i) << "," << h->getFriends(name) << endl;
   }
 }

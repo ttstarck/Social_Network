@@ -8,6 +8,7 @@
 
 #include <string>
 
+// class for nodes in a linked list that each contains a friend's name
 class FriendNode{
 	public:
 		FriendNode* nextFriend;
