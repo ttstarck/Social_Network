@@ -264,26 +264,31 @@ void BTree::getRange(std::string name1, std::string name2, FSeeker* f){
 
 void BTree::getRange(std::string name1, std::string name2, InternalNode* node, FSeeker* f){
   if(node != NULL){
-    if(node->leaves!=NULL){
+    if(node->leaves != NULL){
       for(int i = 0; i < M; i++){
-	if((i == M-1) ||((name1 <= node->names[i]) && (name2 >=node->names[i]))){
+	if((node->names[i+1] != "no name index" && name1 <= node->names[i]) || (name1 <= node->names[i] && name2 >= node->names[i+1]) || (i > 0 && node->names[i] == "no name index" && node->names[i-1] != "no name index" && name2 >= node->names[i-1])){
 	  for(int j = 0; j < L; j++){
 	    if((name1 <= node->leaves[i]->items[j]->name) && (name2 >=node->leaves[i]->items[j]->name)){
 	      std::cout<<node->leaves[i]->items[j]->name<< " "<< f->getOccupation(node->leaves[i]->items[j]->profileDataPointer)<< std::endl;
 	    }
-	    else
-	      break;
+	    // else
+	    // break;
 	  }
 	}
-	else
+        if(node->names[i] == "no name index")
 	  break;
       }
     }
-    for(int i = 0; i < M; i++){
-      if((i == M-1) || ((name1 <= node->names[i]) && (name2 >=node->names[i])))
-	getRange(name1, name2, node->nextNodes[i], f);
-      else
-	break;
+    else{
+      for(int i = 0; i < M; i++){
+	//if((i == M-1) || ((name1 <= node->names[i]) && (name2 >=node->names[i])) || (i > 0 && node->names[i-1] != "no name index" && node->names[i] == "no name index")){
+	if((i == 0 && name1 <= node->names[i]) || (name1 <= node->names[i] && name2 >= node->names[i]) || (i > 0 && node->names[i] == "no name index" && node->names[i-1] != "no name index" && name2 >= node->names[i-1]) ){
+	  if(node->nextNodes[i] != NULL) printInternalNode(node->nextNodes[i]);
+	  getRange(name1, name2, node->nextNodes[i], f);
+	  if(node->names[i] == "no name index")
+	    break;
+	}
+      }
     }
   }
 }
@@ -310,7 +315,7 @@ void BTree::tests(){
   insertRoot("Omid", 5);
   insertRoot("Victor",6);
   insertRoot("Lauren",7);
-  insertRoot("Danny", 8);
+  /* insertRoot("Danny", 8);
   insertRoot("Chris", 9);
   insertRoot("Nicole", 10);
   insertRoot("Thomas", 11);
@@ -328,7 +333,7 @@ void BTree::tests(){
   insertRoot("Patricia", 23);
   insertRoot("Pamela", 24);
   insertRoot("Phoebe", 25);
-
+ 
   insertRoot("Abby", 26);
   insertRoot("Bailey", 27);
   insertRoot("Cam", 28);
@@ -352,7 +357,7 @@ void BTree::tests(){
   insertRoot("Isabella", 42);
   insertRoot("Elijah", 43);
   insertRoot("Emma", 44);
-  insertRoot("Hazel", 45);
+  insertRoot("Hazel", 45);*/
   printInternalNode(root);
 
 }
