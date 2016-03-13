@@ -266,7 +266,8 @@ void BTree::getRange(std::string name1, std::string name2, InternalNode* node, F
   if(node != NULL){
     if(node->leaves != NULL){
       for(int i = 0; i < M; i++){
-	if((node->names[i+1] != "no name index" && name1 <= node->names[i]) || (name1 <= node->names[i] && name2 >= node->names[i+1]) || (i > 0 && node->names[i] == "no name index" && node->names[i-1] != "no name index" && name2 >= node->names[i-1])){
+	if((i == 0 && name1 < node->names[i]) || (i > 0 && node->names[i] != "no name index" && name1 < node->names[i] && name2 >= node->names[i-1]) || (i > 0 && node->names[i] == "no name index" && name2 >= node->names[i-1])){
+	  //if((node->names[i+1] != "no name index" && name1 <= node->names[i]) || (i > 0 && node->names[i+1] == "no name index" && name1 <= node->names[i]) || (node->names[i] == "no name index")){
 	  for(int j = 0; j < L; j++){
 	    if((name1 <= node->leaves[i]->items[j]->name) && (name2 >=node->leaves[i]->items[j]->name)){
 	      std::cout<<node->leaves[i]->items[j]->name<< " "<< f->getOccupation(node->leaves[i]->items[j]->profileDataPointer)<< std::endl;
@@ -281,9 +282,8 @@ void BTree::getRange(std::string name1, std::string name2, InternalNode* node, F
     }
     else{
       for(int i = 0; i < M; i++){
-	//if((i == M-1) || ((name1 <= node->names[i]) && (name2 >=node->names[i])) || (i > 0 && node->names[i-1] != "no name index" && node->names[i] == "no name index")){
-	if((i == 0 && name1 <= node->names[i]) || (name1 <= node->names[i] && name2 >= node->names[i]) || (i > 0 && node->names[i] == "no name index" && node->names[i-1] != "no name index" && name2 >= node->names[i-1]) ){
-	  if(node->nextNodes[i] != NULL) printInternalNode(node->nextNodes[i]);
+	if((i == 0 && name1 < node->names[i]) || (i > 0 && node->names[i] != "no name index" && name1 < node->names[i] && name2 >= node->names[i-1]) || (i > 0 && node->names[i] == "no name index" && name2 >= node->names[i-1])){
+	//if((i == 0 && name1 <= node->names[i]) || (name1 <= node->names[i] && name2 >= node->names[i]) || (i > 0 && node->names[i] == "no name index" && node->names[i-1] != "no name index" && name2 >= node->names[i-1]) ){
 	  getRange(name1, name2, node->nextNodes[i], f);
 	  if(node->names[i] == "no name index")
 	    break;
