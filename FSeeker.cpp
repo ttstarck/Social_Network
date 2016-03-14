@@ -70,7 +70,7 @@ std::string FSeeker::getName(int profileDataPointer){
   fseek(rFile, nameStart, SEEK_SET);
 
   // Get name from the file, which is a max of 20 chars long.
-  nameData = fgets(nameData, 20, rFile);
+  nameData = fgets(nameData, 21, rFile);
 
   fclose(rFile);
 
@@ -96,7 +96,7 @@ std::string FSeeker::getOccupation(int profileDataPointer){
   fseek(rFile, occupationStart, SEEK_SET);
 
   // Get occupation from the file, which is a max of 30 chars long.
-  occupationData = fgets(occupationData, 30, rFile);
+  occupationData = fgets(occupationData, 31, rFile);
 
   fclose(rFile);
 
@@ -122,7 +122,7 @@ std::string FSeeker::getAge(int profileDataPointer){
   fseek(rFile, ageStart, SEEK_SET);
 
   // Get age form the file, which is a max of 3 chars long.
-  ageData = fgets(ageData, 3, rFile);
+  ageData = fgets(ageData, 4, rFile);
 
   fclose(rFile);
 
